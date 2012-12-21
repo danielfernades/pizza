@@ -1,0 +1,4 @@
+app/cache
+vendor
+composer.phar
+.idea
