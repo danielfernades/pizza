@@ -1,0 +1,14 @@
+debug: true
+secret: xZtcv86asdnZasdBz67
+locale: de
+locale_fallback: de
+
+doctrine:
+    dbal:
+        driver:   pdo_mysql
+        port:     3306
+        host:     localhost
+        dbname:   pizza
+        user:     root
+        password: root
+        charset:  UTF8

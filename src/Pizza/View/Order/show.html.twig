@@ -1,0 +1,26 @@
+{% extends "baselayout.html.twig" %}
+
+{% block content %}
+    <h1>{{ order }}</h1>
+    {% if order.orderitems|length > 0 %}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>{{ "eat"|trans({}, "frontend") }}</th>
+                <th>{{ "drink"|trans({}, "frontend") }}</th>
+                <th>{{ "employee"|trans({}, "frontend") }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for orderitem in order.orderitems %}
+                <tr>
+                    <td>{{ orderitem.eat }}</td>
+                    <td>{{ orderitem.drink }}</td>
+                    <td>{{ orderitem.employee }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+    <a class="btn" href="{{ url('order_list') }}">{{ "back"|trans({}, "frontend") }}</a>
+{% endblock %}

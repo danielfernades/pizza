@@ -1,0 +1,28 @@
+{% extends "baselayout.html.twig" %}
+
+{% block content %}
+    <h1>{{ order }}</h1>
+    {% if order.orderitems|length > 0 %}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>{{ "title"|trans({}, "frontend") }}</th>
+                <th>{{ "actions"|trans({}, "frontend") }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for orderitem in order.orderitems %}
+                <tr>
+                    <td>{{ orderitem }}</td>
+                    <td>
+                        <a class="btn" href="{{ url('order_item_edit', {'id': order.id, 'itemid': orderitem.id }) }}">{{ "edit"|trans({}, "frontend") }}</a>
+                        <a class="btn btn-danger" href="{{ url('order_item_delete', {'id': order.id, 'itemid': orderitem.id }) }}">{{ "delete"|trans({}, "frontend") }}</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+    <a class="btn" href="{{ url('order_item_edit', {'id': order.id}) }}">{{ "create"|trans({}, "frontend") }}</a>
+    <a class="btn" href="{{ url('order_list') }}">{{ "back"|trans({}, "frontend") }}</a>
+{% endblock %}
