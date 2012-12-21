@@ -111,10 +111,15 @@ $app['security.firewalls'] = array(
 // register security
 $app->register(new SecurityServiceProvider());
 
+// redirect to ordercontroller
+$app->get('/', function() use($app) {
+    return $app->redirect($app['url_generator']->generate('order_list'), 301);
+});
+
 // add routes
 $app->mount('/', new LoginController());
-$app->mount('/', new OrderController());
-$app->mount('/user', new UserController());
+$app->mount('{_locale}/', new OrderController());
+$app->mount('{_locale}/user', new UserController());
 
 // boot the application
 $app->boot();
