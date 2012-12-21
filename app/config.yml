@@ -1,6 +1,6 @@
 debug: true
 secret: xZtcv86asdnZasdBz67
-locale: de
+locale: de_CH
 locale_fallback: de
 
 doctrine:
