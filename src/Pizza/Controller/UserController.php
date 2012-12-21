@@ -90,6 +90,12 @@ class UserController extends AbstractController
                 // update password
                 if($objUser->updatePassword($this->app['security.encoder.digest']))
                 {
+                    // you can't remove admin role on yourself
+                    if($objUser->getId() == $this->getSecurity()->getToken()->getUser()->getId())
+                    {
+                        $objUser->addRole(User::ROLE_ADMIN);
+                    }
+
                     // persist the user
                     $this->getEntityManager()->persist($objUser);
                     $this->getEntityManager()->flush();
@@ -126,11 +132,18 @@ class UserController extends AbstractController
 
         // get the user
         $objUser = $this->getEntityManager()->getRepository("Pizza\\Entity\\User")->find($id);
+        /** @var User $objUser */
 
         // check if user exists
         if(is_null($objUser))
         {
             $this->app->abort(404, "User with id {$id} not found!");
+        }
+
+        // check the user doesn't delete himself
+        if($objUser->getId() == $this->getSecurity()->getToken()->getUser()->getId())
+        {
+            $this->app->abort(500, "You can't delete yourself!");
         }
 
         // remove the user
