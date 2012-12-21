@@ -16,6 +16,19 @@
 <div class="container">
     <div class="row">
         <div class="span12">
+            {{ "pizza"|trans({}, "frontend") }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3">
+            {% block nav %}
+                <ul>
+                    <li><a href="{{ path('order_list') }}">{{ "orders"|trans({}, "frontend") }}</a></li>
+                    <li><a href="{{ path('user_list') }}">{{ "users"|trans({}, "frontend") }}</a></li>
+                </ul>
+            {% endblock nav %}
+        </div>
+        <div class="span9">
             {% block content %}{% endblock content %}
         </div>
     </div>

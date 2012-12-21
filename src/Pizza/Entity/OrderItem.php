@@ -1,6 +1,6 @@
 <?php
 
-namespace Pizza\Model;
+namespace Pizza\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 

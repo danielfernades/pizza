@@ -1,6 +1,6 @@
 <?php
 
-namespace Pizza\Model;
+namespace Pizza\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -28,7 +28,7 @@ class Order
 
     /**
      * @var Collection
-     * @ORM\OneToMany(targetEntity="Pizza\Model\OrderItem", mappedBy="order", cascade={"remove", "persist"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Pizza\Entity\OrderItem", mappedBy="order", cascade={"remove", "persist"}, orphanRemoval=true)
      */
     protected $orderitems;
 

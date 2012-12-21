@@ -1,6 +1,7 @@
 {% extends "baselayout.html.twig" %}
 
 {% block content %}
+    <h1>{{ "orders"|trans({}, "frontend") }}</h1>
     {% if orders|length > 0 %}
         <table class="table table-striped">
             <thead>

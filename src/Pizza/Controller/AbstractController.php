@@ -9,6 +9,8 @@ use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\Translation\Translator;
 
 abstract class AbstractController implements ControllerProviderInterface
 {
@@ -81,6 +83,22 @@ abstract class AbstractController implements ControllerProviderInterface
     protected function getEntityManager()
     {
         return $this->app['orm.em'];
+    }
+
+    /**
+     * @return Translator
+     */
+    protected function getTranslator()
+    {
+        return $this->app['translator'];
+    }
+
+    /**
+     * @return SecurityContext
+     */
+    protected function getSecurity()
+    {
+        return $this->app['security'];
     }
 
     /**

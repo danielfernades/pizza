@@ -1,0 +1,14 @@
+{% extends "baselayout.html.twig" %}
+
+{% block content %}
+    <form action="{{ url('user_edit', {'id': user.id }) }}" method="post" {{ form_enctype(userform) }}>
+        <h1>{{ "user"|trans({}, "frontend") }}</h1>
+        {{ form_errors(userform) }}
+        {% for key,field in userform %}
+            <div class="fieldwrapper">
+                {{ form_row(field) }}
+            </div>
+        {% endfor %}
+        <input class="btn btn-success" type="submit" />
+    </form>
+{% endblock content %}

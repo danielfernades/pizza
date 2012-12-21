@@ -3,11 +3,16 @@
 use Dflydev\Silex\Provider\DoctrineOrm\DoctrineOrmServiceProvider;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Igorw\Silex\ConfigServiceProvider;
+use Pizza\Controller\LoginController;
 use Pizza\Controller\OrderController;
+use Pizza\Controller\UserController;
+use Pizza\Providers\UserProvider;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\FormServiceProvider;
 use Silex\Provider\UrlGeneratorServiceProvider;
+use Silex\Provider\SecurityServiceProvider;
+use Silex\Provider\SessionServiceProvider;
 use Silex\Provider\TranslationServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\ValidatorServiceProvider;
@@ -52,8 +57,8 @@ $app->register(new DoctrineOrmServiceProvider, array(
         "mappings" => array(
             array(
                 "type" => "annotation",
-                "namespace" => "Pizza\\Model",
-                "path" => $app['src_dir']."/Pizza/Model",
+                "namespace" => "Pizza\\Entity",
+                "path" => $app['src_dir']."/Pizza/Entity",
                 "use_simple_annotation_reader" => false,
             ),
         ),
@@ -74,14 +79,45 @@ $app->register(new UrlGeneratorServiceProvider());
 // register translation
 $app->register(new TranslationServiceProvider());
 
+// register session
+$app->register(new SessionServiceProvider());
+
 // register twig
 $app->register(new TwigServiceProvider(), array(
     'twig.path' => $app['src_dir'] . '/Pizza/View',
     'twig.options' => array('cache' => $app['cache_dir'] . '/twig')
 ));
 
+// define firewalls
+$app['security.firewalls'] = array(
+    'login' => array(
+        'pattern' => '^/login$',
+    ),
+    'secured' => array(
+        'pattern' => '^.*$',
+        'form' => array(
+            'login_path' => '/login',
+            'check_path' => '/login_check'
+        ),
+        'logout' => array(
+            'logout_path' => '/logout'
+        ),
+        'users' => $app->share(function () use ($app) {
+            return new UserProvider($app['orm.em']);
+        }),
+    ),
+);
+
+// register security
+$app->register(new SecurityServiceProvider());
+
 // add routes
+$app->mount('/', new LoginController());
 $app->mount('/', new OrderController());
+$app->mount('/user', new UserController());
+
+// boot the application
+$app->boot();
 
 // return the app
 return $app;
