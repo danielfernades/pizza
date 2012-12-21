@@ -1,0 +1,1 @@
+INSERT INTO `user` VALUES ('1', 'admin', 'iJnz4jfFmN0NarOYiTTJJZeLnzCMB63nh5M18DLMt1nLyQXEzrAZkI459BuYrpsoSdKNHCnkATAqWcy55fnZZg==', '53245887550d4c9e711e74', 'a:2:{i:1;s:9:\"ROLE_USER\";i:2;s:10:\"ROLE_ADMIN\";}', '1');
