@@ -6,6 +6,7 @@ use Knp\Menu\MenuFactory;
 use Pizza\Entity\User;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\Translation\Translator;
 
@@ -16,9 +17,12 @@ class MenuProvider implements ServiceProviderInterface
         $app['main_menu'] = function($app) {
             $menu = $this->getMenuFactory($app)->createItem('root');
             $menu->addChild($this->getTranslator($app)->trans('nav.order'), array('route' => 'order_list'));
-            $menu->addChild($this->getTranslator($app)->trans('nav.user'), array('route' => 'user_list'));
 
-            if($this->getUser($app)) {
+            if(!is_null($this->getUser($app)) && $this->getSecurity($app)->isGranted('ROLE_ADMIN')) {
+                $menu->addChild($this->getTranslator($app)->trans('nav.user'), array('route' => 'user_list'));
+            }
+
+            if(!is_null($this->getUser($app))) {
                 $menu->addChild($this->getTranslator($app)->trans('nav.logout'), array('route' => 'logout'));
             }
 
@@ -59,11 +63,20 @@ class MenuProvider implements ServiceProviderInterface
 
     /**
      * @param Application $app
+     * @return null|TokenInterface
+     */
+    protected function getToken(Application $app)
+    {
+        return $this->getSecurity($app)->getToken();
+    }
+
+    /**
+     * @param Application $app
      * @return User|null
      */
     protected function getUser(Application $app)
     {
-        $token = $this->getSecurity($app)->getToken();
+        $token = $token = $this->getToken($app);
         if(is_null($token)) {
             return null;
         }
