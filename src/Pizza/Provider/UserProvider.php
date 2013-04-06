@@ -1,6 +1,6 @@
 <?php
 
-namespace Pizza\Providers;
+namespace Pizza\Provider;
 
 use Doctrine\ORM\EntityManager;
 use Pizza\Entity\User;

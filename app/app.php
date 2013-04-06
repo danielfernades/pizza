@@ -6,7 +6,7 @@ use Igorw\Silex\ConfigServiceProvider;
 use Pizza\Controller\LoginController;
 use Pizza\Controller\OrderController;
 use Pizza\Controller\UserController;
-use Pizza\Providers\UserProvider;
+use Pizza\Provider\UserProvider;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\FormServiceProvider;
