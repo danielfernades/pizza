@@ -5,11 +5,11 @@
     <form action="{{ path('login_check') }}" method="post">
         {{ error }}
         <div class="fieldwrapper">
-            <label for="_username">{{ "login.username"|trans() }}</label>
+            <label for="_username">{{ "form.label.username"|trans() }}</label>
             <input id="_username" type="text" name="_username" value="{{ last_username }}" />
         </div>
         <div class="fieldwrapper">
-            <label for="_password">{{ "login.password"|trans() }}</label>
+            <label for="_password">{{ "form.label.password"|trans() }}</label>
             <input id="_password" type="password" name="_password" value="" />
         </div>
         <input class="btn btn-success" type="submit" value="{{ "login.login"|trans() }}" />

@@ -1,7 +1,6 @@
 debug: true
 secret: xZtcv86asdnZasdBz67
-locale: de
-locale_fallback: de
+locale_fallback: en
 
 doctrine:
     dbal:

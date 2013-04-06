@@ -94,6 +94,7 @@ $app->register(new TranslationServiceProvider());
 $app['translator'] = $app->share($app->extend('translator', function(Translator $translator, $app) {
     $translator->addLoader('yaml', new YamlFileLoader());
     $translator->addResource('yaml', $app['src_dir'] . '/Pizza/Translation/de.yml', 'de');
+    $translator->addResource('yaml', $app['src_dir'] . '/Pizza/Translation/en.yml', 'en');
     return $translator;
 }));
 

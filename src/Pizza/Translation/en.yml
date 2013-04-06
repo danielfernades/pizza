@@ -1,0 +1,57 @@
+project: Pizza Tool
+
+nav:
+  order: Orders
+  user: User
+  logout: logout
+
+login:
+  title: Login
+  login: login
+
+order:
+  edititem:
+    title: Orderitem
+    submit: save orderitem
+    back: back to order
+  list:
+    title: Orders
+    edit: edit order
+    delete: delete order
+    show: show order
+    create: add order
+  listitem:
+    title: Order
+    edit: edit orderitem
+    delete: delete orderitem
+    create: add orderitem
+    back: back to orders
+  show:
+    title: Order
+    back: back to orders
+
+user:
+  list:
+    title: User
+    edit: edit user
+    delete: delete user
+    create: create user
+  edit:
+    title: User
+    submit: add user
+
+form:
+  label:
+    eat: to eat
+    drink: to drink
+    employee: for who
+    username: username
+    password: password
+    plainpassword: password
+    repeatedpassword: repeat password
+    roles: roles
+    enabled: enabled
+
+table:
+  title: description
+  actions: actions

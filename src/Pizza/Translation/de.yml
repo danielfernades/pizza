@@ -7,8 +7,6 @@ nav:
 
 login:
   title: Login
-  username: Benutzername
-  password: Passwort
   login: anmelden
 
 order:
@@ -48,6 +46,7 @@ form:
     drink: zum trinken
     employee: für wenn
     username: Benutzername
+    password: Passwort
     plainpassword: Passwort
     repeatedpassword: Passwort wiederholen
     roles: Rolen
