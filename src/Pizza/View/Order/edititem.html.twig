@@ -1,14 +1,15 @@
 {% extends "baselayout.html.twig" %}
 
 {% block content %}
+    {% form_theme orderitemform 'Form/fields.html.twig' %}
     <form action="{{ url('order_item_edit', {'id': orderitem.order.id, 'itemid': orderitem.id }) }}" method="post" {{ form_enctype(orderitemform) }}>
-        <h1>{{ "orderitem"|trans() }}</h1>
+        <h1>{{ "order.edititem.title"|trans() }}</h1>
         {% for key,field in orderitemform %}
             <div class="fieldwrapper">
                 {{ form_row(field) }}
             </div>
         {% endfor %}
-        <input class="btn btn-success" type="submit" />
-        <a class="btn" href="{{ url('order_item_list', {'id': orderitem.order.id}) }}">{{ "back"|trans() }}</a>
+        <input class="btn btn-success" type="submit" value="{{ "order.edititem.submit"|trans() }}" />
+        <a class="btn" href="{{ url('order_item_list', {'id': orderitem.order.id}) }}">{{ "order.edititem.back"|trans() }}</a>
     </form>
 {% endblock content %}

@@ -1,4 +1,58 @@
+project: Pizza Tool
+
 nav:
   order: Bestellungen
   user: Benutzer
   logout: abmelden
+
+login:
+  title: Login
+  username: Benutzername
+  password: Passwort
+  login: anmelden
+
+order:
+  edititem:
+    title: Bestellposition
+    submit: Bestellposition speichern
+    back: zurück zur Bestellung
+  list:
+    title: Bestellungen
+    edit: Bestellung bearbeiten
+    delete: Bestellung löschen
+    show: Bestellung anzeigen
+    create: Bestellung erfassen
+  listitem:
+    title: Bestellung
+    edit: Bestellposition bearbeiten
+    delete: Bestellposition löschen
+    create: Bestellposition erfassen
+    back: zurück zu den Bestellungen
+  show:
+    title: Bestellung
+    back: zurück zu den Bestellungen
+
+user:
+  list:
+    title: Benutzer
+    edit: Benutzer bearbeiten
+    delete: Benutzer löschen
+    create: Benutzer erfassen
+  edit:
+    title: Benutzer
+    submit: Benutzer speichern
+
+form:
+  label:
+    eat: zum essen
+    drink: zum trinken
+    employee: für wenn
+    username: Benutzername
+    plainpassword: Passwort
+    repeatedpassword: Passwort wiederholen
+    roles: Rolen
+    enabled: aktiviert
+
+table:
+  title: Bezeichnung
+  actions: Aktionen
