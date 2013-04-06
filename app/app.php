@@ -12,10 +12,12 @@ use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\FormServiceProvider;
 use Silex\Provider\UrlGeneratorServiceProvider;
 use Silex\Provider\SecurityServiceProvider;
+use Silex\Provider\ServiceControllerServiceProvider;
 use Silex\Provider\SessionServiceProvider;
 use Silex\Provider\TranslationServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\ValidatorServiceProvider;
+use Silex\Provider\WebProfilerServiceProvider;
 
 // load composer autoload
 if (!$loader = @include dirname(__DIR__) . '/vendor/autoload.php')
@@ -70,6 +72,9 @@ $app->register(new FormServiceProvider(), array(
     'form.secret' => $app['secret']
 ));
 
+// register service controller
+$app->register(new ServiceControllerServiceProvider());
+
 // register validator
 $app->register(new ValidatorServiceProvider());
 
@@ -115,6 +120,11 @@ $app->register(new SecurityServiceProvider());
 $app->get('/', function() use($app) {
     return $app->redirect($app['url_generator']->generate('order_list'), 301);
 });
+
+$app->register($p = new WebProfilerServiceProvider(), array(
+    'profiler.cache_dir' => __DIR__.'/cache/profiler',
+));
+$app->mount('/_profiler', $p);
 
 // add routes
 $app->mount('/', new LoginController());
