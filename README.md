@@ -1,8 +1,11 @@
 # pizza tool (fun project, based on [Silex](http://silex.sensiolabs.org))
 
-## login
+## installation
 
-admin / admin (user.sql)
+change app/config.yml
+
+./app/console orm:schema-tool:create
+./app/console pizza:user:create admin --admin
 
 ## webserver configuration
 

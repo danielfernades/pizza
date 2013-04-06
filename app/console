@@ -1,0 +1,20 @@
+#!/usr/bin/env php
+<?php
+
+use Doctrine\ORM\Tools\Console\ConsoleRunner;
+use Pizza\Command\UserCreateCommand;
+use Pizza\Helper\SilexHelper;
+use Symfony\Component\Console\Application as CommandlineApplication;
+use Symfony\Component\Console\Helper\DialogHelper;
+
+$app = require("app.php");
+
+$console = new CommandlineApplication();
+
+$helperSet = ConsoleRunner::createHelperSet($app['orm.em']);
+$helperSet->set(new SilexHelper($app));
+$helperSet->set(new DialogHelper());
+$console->setHelperSet($helperSet);
+ConsoleRunner::addCommands($console);
+$console->add(new UserCreateCommand());
+$console->run();
