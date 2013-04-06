@@ -1,5 +1,7 @@
 {% extends "baselayout.html.twig" %}
 
+{% block title %}{{ "order.list.title"|trans() }}{% endblock title %}
+
 {% block content %}
     <h1>{{ "order.list.title"|trans() }}</h1>
     {% if orders|length > 0 %}

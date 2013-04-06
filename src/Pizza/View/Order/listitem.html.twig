@@ -1,5 +1,7 @@
 {% extends "baselayout.html.twig" %}
 
+{% block title %}{{ "order.listitem.title"|trans() }} - {{ order.orderdatetime|date("d.m.Y H:i") }}{% endblock title %}
+
 {% block content %}
     <h1>{{ "order.listitem.title"|trans() }} - {{ order.orderdatetime|date("d.m.Y H:i") }}</h1>
     {% if order.orderitems|length > 0 %}

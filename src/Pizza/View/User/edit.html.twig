@@ -1,5 +1,7 @@
 {% extends "baselayout.html.twig" %}
 
+{% block title %}{{ "user.edit.title"|trans() }}{% endblock title %}
+
 {% block content %}
     {% form_theme userform 'Form/fields.html.twig' %}
     <form action="{{ url('user_edit', {'id': user.id }) }}" method="post" {{ form_enctype(userform) }}>

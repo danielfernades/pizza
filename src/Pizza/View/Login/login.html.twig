@@ -1,5 +1,7 @@
 {% extends "baselayout.html.twig" %}
 
+{% block title %}{{ "login.title"|trans() }}{% endblock title %}
+
 {% block content %}
     <h1>{{ "login.title"|trans() }}</h1>
     <form action="{{ path('login_check') }}" method="post">
