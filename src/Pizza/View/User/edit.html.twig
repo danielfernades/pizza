@@ -2,7 +2,7 @@
 
 {% block content %}
     <form action="{{ url('user_edit', {'id': user.id }) }}" method="post" {{ form_enctype(userform) }}>
-        <h1>{{ "user"|trans({}, "frontend") }}</h1>
+        <h1>{{ "user"|trans() }}</h1>
         {{ form_errors(userform) }}
         {% for key,field in userform %}
             <div class="fieldwrapper">

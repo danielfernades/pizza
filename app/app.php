@@ -22,6 +22,8 @@ use Silex\Provider\TranslationServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\ValidatorServiceProvider;
 use Silex\Provider\WebProfilerServiceProvider;
+use Symfony\Component\Translation\Loader\YamlFileLoader;
+use Symfony\Component\Translation\Translator;
 
 // load composer autoload
 if (!$loader = @include dirname(__DIR__) . '/vendor/autoload.php')
@@ -87,6 +89,13 @@ $app->register(new UrlGeneratorServiceProvider());
 
 // register translation
 $app->register(new TranslationServiceProvider());
+
+// add translation files
+$app['translator'] = $app->share($app->extend('translator', function(Translator $translator, $app) {
+    $translator->addLoader('yaml', new YamlFileLoader());
+    $translator->addResource('yaml', $app['src_dir'] . '/Pizza/Translation/de.yml', 'de');
+    return $translator;
+}));
 
 // register session
 $app->register(new SessionServiceProvider());

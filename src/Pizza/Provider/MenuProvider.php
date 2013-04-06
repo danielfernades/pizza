@@ -13,9 +13,9 @@ class MenuProvider implements ServiceProviderInterface
     {
         $app['main_menu'] = function($app) {
             $menu = $this->getMenuFactory($app)->createItem('root');
-            $menu->addChild($this->getTranslator($app)->trans('orders', array(), 'Frontend'), array('route' => 'order_list'));
-            $menu->addChild($this->getTranslator($app)->trans('users', array(), 'Frontend'), array('route' => 'user_list'));
-            $menu->addChild($this->getTranslator($app)->trans('logout', array(), 'Frontend'), array('route' => 'logout'));
+            $menu->addChild($this->getTranslator($app)->trans('nav.order'), array('route' => 'order_list'));
+            $menu->addChild($this->getTranslator($app)->trans('nav.user'), array('route' => 'user_list'));
+            $menu->addChild($this->getTranslator($app)->trans('nav.logout'), array('route' => 'logout'));
             return $menu;
         };
 

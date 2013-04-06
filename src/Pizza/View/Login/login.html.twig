@@ -1,15 +1,15 @@
 {% extends "baselayout.html.twig" %}
 
 {% block content %}
-    <h1>{{ "login"|trans({}, "frontend") }}</h1>
+    <h1>{{ "login"|trans() }}</h1>
     <form action="{{ path('login_check') }}" method="post">
         {{ error }}
         <div class="fieldwrapper">
-            <label for="_username">{{ "username"|trans({}, "frontend") }}</label>
+            <label for="_username">{{ "username"|trans() }}</label>
             <input id="_username" type="text" name="_username" value="{{ last_username }}" />
         </div>
         <div class="fieldwrapper">
-            <label for="_password">{{ "password"|trans({}, "frontend") }}</label>
+            <label for="_password">{{ "password"|trans() }}</label>
             <input id="_password" type="password" name="_password" value="" />
         </div>
         <input class="btn btn-success" type="submit" />

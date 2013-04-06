@@ -6,9 +6,9 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>{{ "eat"|trans({}, "frontend") }}</th>
-                <th>{{ "drink"|trans({}, "frontend") }}</th>
-                <th>{{ "employee"|trans({}, "frontend") }}</th>
+                <th>{{ "eat"|trans() }}</th>
+                <th>{{ "drink"|trans() }}</th>
+                <th>{{ "employee"|trans() }}</th>
             </tr>
             </thead>
             <tbody>
@@ -22,5 +22,5 @@
             </tbody>
         </table>
     {% endif %}
-    <a class="btn" href="{{ url('order_list') }}">{{ "back"|trans({}, "frontend") }}</a>
+    <a class="btn" href="{{ url('order_list') }}">{{ "back"|trans() }}</a>
 {% endblock %}
