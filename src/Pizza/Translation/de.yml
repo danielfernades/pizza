@@ -49,6 +49,7 @@ form:
     password: Passwort
     plainpassword: Passwort
     repeatedpassword: Passwort wiederholen
+    email: E-Mail
     roles: Rolen
     enabled: aktiviert
 

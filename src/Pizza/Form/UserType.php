@@ -14,6 +14,7 @@ class UserType extends AbstractType
             ->add('username')
             ->add('plainpassword', 'password', array('required' => false))
             ->add('repeatedpassword', 'password', array('required' => false))
+            ->add('email', 'email')
             ->add('roles', 'choice', array(
                 'choices' => User::possibleRoles(),
                 'multiple' => true,

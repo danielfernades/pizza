@@ -57,6 +57,12 @@ class User implements UserInterface
     protected $salt;
 
     /**
+     * @var string $email
+     * @ORM\Column(name="email", type="string")
+     */
+    protected $email;
+
+    /**
      * @var array $roles
      * @ORM\Column(name="roles", type="array")
      */
@@ -182,6 +188,24 @@ class User implements UserInterface
     public function getSalt()
     {
         return $this->salt;
+    }
+
+    /**
+     * @param string $email
+     * @return User
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
     }
 
     /**

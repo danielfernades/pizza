@@ -49,6 +49,7 @@ form:
     password: password
     plainpassword: password
     repeatedpassword: repeat password
+    email: email
     roles: roles
     enabled: enabled
 
