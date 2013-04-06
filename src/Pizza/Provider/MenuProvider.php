@@ -16,13 +16,12 @@ class MenuProvider implements ServiceProviderInterface
     {
         $app['main_menu'] = function($app) {
             $menu = $this->getMenuFactory($app)->createItem('root');
-            $menu->addChild($this->getTranslator($app)->trans('nav.order'), array('route' => 'order_list'));
-
-            if(!is_null($this->getUser($app)) && $this->getSecurity($app)->isGranted('ROLE_ADMIN')) {
-                $menu->addChild($this->getTranslator($app)->trans('nav.user'), array('route' => 'user_list'));
-            }
 
             if(!is_null($this->getUser($app))) {
+                $menu->addChild($this->getTranslator($app)->trans('nav.order'), array('route' => 'order_list'));
+                if($this->getSecurity($app)->isGranted('ROLE_ADMIN')) {
+                    $menu->addChild($this->getTranslator($app)->trans('nav.user'), array('route' => 'user_list'));
+                }
                 $menu->addChild($this->getTranslator($app)->trans('nav.logout'), array('route' => 'logout'));
             }
 
