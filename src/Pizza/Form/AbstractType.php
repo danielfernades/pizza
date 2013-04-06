@@ -10,7 +10,7 @@ abstract class AbstractType extends BaseAbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'translation_domain' => ''
+            'translation_domain' => 'messages'
         ));
     }
 }
