@@ -3,9 +3,13 @@
 use Dflydev\Silex\Provider\DoctrineOrm\DoctrineOrmServiceProvider;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Igorw\Silex\ConfigServiceProvider;
+use Knp\Menu\Silex\KnpMenuServiceProvider;
+use Knp\Menu\Twig\Helper;
+use Knp\Menu\Twig\MenuExtension;
 use Pizza\Controller\LoginController;
 use Pizza\Controller\OrderController;
 use Pizza\Controller\UserController;
+use Pizza\Provider\MenuProvider;
 use Pizza\Provider\UserProvider;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
@@ -87,12 +91,24 @@ $app->register(new TranslationServiceProvider());
 // register session
 $app->register(new SessionServiceProvider());
 
+// register menu knpmenu
+$app->register(new KnpMenuServiceProvider());
+$app->register(new MenuProvider());
+
 // register twig
 $app->register(new TwigServiceProvider(), array(
     'twig.path' => $app['src_dir'] . '/Pizza/View',
     'twig.options' => array('cache' => $app['cache_dir'] . '/twig')
 ));
 
+// add twig extension
+$app['twig'] = $app->share($app->extend('twig', function($twig) use($app) {
+    $twig->addExtension(new MenuExtension(new Helper(
+        $app['knp_menu.renderer_provider'],
+        $app['knp_menu.menu_provider']))
+    );
+    return $twig;
+}));
 
 // register security
 $app->register(new Silex\Provider\SecurityServiceProvider(), array(
