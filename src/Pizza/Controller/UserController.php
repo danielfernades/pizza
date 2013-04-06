@@ -6,7 +6,7 @@ use Silex\ControllerCollection;
 use Pizza\Entity\User;
 use Pizza\Form\UserType;
 use Symfony\Component\Form\FormError;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class UserController extends AbstractController
 {
@@ -29,16 +29,9 @@ class UserController extends AbstractController
 
     /**
      * @return string
-     * @throws AccessDeniedException
      */
     public function listAction()
     {
-        // check permissions
-        if(!$this->getSecurity()->isGranted('ROLE_ADMIN'))
-        {
-            throw new AccessDeniedException("ROLE_ADMIN is needed!");
-        }
-
         // get orders
         $arrUsers = $this->getEntityManager()->getRepository("Pizza\\Entity\\User")->findAll();
 
@@ -48,17 +41,10 @@ class UserController extends AbstractController
 
     /**
      * @param $id
-     * @return string
-     * @throws AccessDeniedException
+     * @return string|RedirectResponse
      */
     public function editAction($id)
     {
-        // check permissions
-        if(!$this->getSecurity()->isGranted('ROLE_ADMIN'))
-        {
-            throw new AccessDeniedException("ROLE_ADMIN is needed!");
-        }
-
         if(!is_null($id))
         {
             // get user
@@ -120,16 +106,9 @@ class UserController extends AbstractController
     /**
      * @param $id
      * @return RedirectResponse
-     * @throws AccessDeniedException
      */
     public function deleteAction($id)
     {
-        // check permissions
-        if(!$this->getSecurity()->isGranted('ROLE_ADMIN'))
-        {
-            throw new AccessDeniedException("ROLE_ADMIN is needed!");
-        }
-
         // get the user
         $objUser = $this->getEntityManager()->getRepository("Pizza\\Entity\\User")->find($id);
         /** @var User $objUser */
