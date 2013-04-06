@@ -1,7 +1,0 @@
-#!/usr/bin/env php
-<?php
-
-use Doctrine\ORM\Tools\Console\ConsoleRunner;
-
-$app = require("app.php");
-ConsoleRunner::run(ConsoleRunner::createHelperSet($app['orm.em']));
