@@ -93,28 +93,36 @@ $app->register(new TwigServiceProvider(), array(
     'twig.options' => array('cache' => $app['cache_dir'] . '/twig')
 ));
 
-// define firewalls
-$app['security.firewalls'] = array(
-    'login' => array(
-        'pattern' => '^/login$',
-    ),
-    'secured' => array(
-        'pattern' => '^.*$',
-        'form' => array(
-            'login_path' => '/login',
-            'check_path' => '/login_check'
-        ),
-        'logout' => array(
-            'logout_path' => '/logout'
-        ),
-        'users' => $app->share(function () use ($app) {
-            return new UserProvider($app['orm.em']);
-        }),
-    ),
-);
 
 // register security
-$app->register(new SecurityServiceProvider());
+$app->register(new Silex\Provider\SecurityServiceProvider(), array(
+    'security.firewalls' => array(
+        'login' => array(
+            'pattern' => '^/login$',
+        ),
+        '_profiler' => array(
+            'pattern' => '^/_profiler',
+        ),
+        'secured' => array(
+            'form' => array(
+                'login_path' => '/login',
+                'check_path' => '/login_check'
+            ),
+            'logout' => array(
+                'logout_path' => '/logout'
+            ),
+            'users' => $app->share(function () use ($app) {
+                return new UserProvider($app['orm.em']);
+            }),
+        ),
+    ),
+    'security.access_rules' => array(
+        array('^/[^/]*/user', 'ROLE_ADMIN'),
+    ),
+    'security.role_hierarchy' => array(
+        'ROLE_ADMIN' => array('ROLE_USER'),
+    ),
+));
 
 // redirect to ordercontroller
 $app->get('/', function() use($app) {
