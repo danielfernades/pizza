@@ -121,15 +121,15 @@ $app->get('/', function() use($app) {
     return $app->redirect($app['url_generator']->generate('order_list'), 301);
 });
 
-$app->register($p = new WebProfilerServiceProvider(), array(
-    'profiler.cache_dir' => __DIR__.'/cache/profiler',
-));
-$app->mount('/_profiler', $p);
-
 // add routes
 $app->mount('/', new LoginController());
 $app->mount('{_locale}/', new OrderController());
 $app->mount('{_locale}/user', new UserController());
+
+$app->register($p = new WebProfilerServiceProvider(), array(
+    'profiler.cache_dir' => __DIR__.'/cache/profiler',
+));
+$app->mount('/_profiler', $p);
 
 // boot the application
 $app->boot();
