@@ -77,7 +77,7 @@ class User implements UserInterface
     protected $enabled = false;
 
     /**
-     * @var Collection
+     * @var OrderItem[]
      * @ORM\OneToMany(targetEntity="OrderItem", mappedBy="user", cascade={"persist"})
      */
     protected $orderitems;
@@ -293,7 +293,7 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection
+     * @return OrderItem[]
      */
     public function getOrderItems()
     {
