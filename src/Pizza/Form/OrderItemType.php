@@ -19,7 +19,6 @@ class OrderItemType extends AbstractType
             ->add('drink')
             ->add('user', 'entity', array(
                 'class' => get_class(new User()),
-                'by_reference' => false,
             ))
         ;
     }
