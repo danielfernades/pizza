@@ -2,6 +2,8 @@
 
 namespace Pizza\Form;
 
+use Doctrine\ORM\EntityRepository;
+use Pizza\Entity\OrderItem;
 use Pizza\Entity\User;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -19,6 +21,13 @@ class OrderItemType extends AbstractType
             ->add('drink')
             ->add('user', 'entity', array(
                 'class' => get_class(new User()),
+                'property' => 'username',
+                'query_builder' => function(EntityRepository $er) {
+                    return $er
+                        ->createQueryBuilder('u')
+                        ->orderBy('u.username', 'ASC')
+                    ;
+                },
             ))
         ;
     }
