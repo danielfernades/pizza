@@ -11,6 +11,7 @@ use Pizza\Controller\OrderController;
 use Pizza\Controller\UserController;
 use Pizza\Provider\MenuProvider;
 use Pizza\Provider\UserProvider;
+use Pizza\Registry\ManagerRegistry;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\FormServiceProvider;
@@ -22,6 +23,7 @@ use Silex\Provider\TranslationServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\ValidatorServiceProvider;
 use Silex\Provider\WebProfilerServiceProvider;
+use Symfony\Bridge\Doctrine\Form\DoctrineOrmExtension;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
 use Symfony\Component\Translation\Translator;
 
@@ -77,6 +79,14 @@ $app->register(new DoctrineOrmServiceProvider, array(
 $app->register(new FormServiceProvider(), array(
     'form.secret' => $app['secret']
 ));
+
+$app['form.extensions'] = $app->share($app->extend('form.extensions', function ($extensions, $app) {
+    $managerRegistry = new ManagerRegistry(null, array(), array('orm.em'), null, null, '\Doctrine\ORM\Proxy\Proxy');
+    $managerRegistry->setContainer($app);
+    $extensions[] = new DoctrineOrmExtension($managerRegistry);
+    return $extensions;
+}));
+
 
 // register service controller
 $app->register(new ServiceControllerServiceProvider());

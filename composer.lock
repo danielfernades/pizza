@@ -1,5 +1,5 @@
 {
-    "hash": "1459e7bb7b4795ab098b9ec7844d41b8",
+    "hash": "3982d1ac301c4d46879e8508747a0d1c",
     "packages": [
         {
             "name": "dflydev/doctrine-orm-service-provider",
@@ -1032,6 +1032,72 @@
             "time": "2013-03-25 20:03:44"
         },
         {
+            "name": "symfony/doctrine-bridge",
+            "version": "2.2.x-dev",
+            "target-dir": "Symfony/Bridge/Doctrine",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/DoctrineBridge.git",
+                "reference": "v2.2.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/DoctrineBridge/zipball/v2.2.1",
+                "reference": "v2.2.1",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/common": ">=2.2,<3.0",
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "doctrine/data-fixtures": "1.0.*",
+                "doctrine/dbal": ">=2.2,<3.0",
+                "doctrine/orm": ">=2.2,<3.0,>=2.2.3",
+                "symfony/dependency-injection": ">=2.0,<3.0",
+                "symfony/form": ">=2.2,<2.3-dev",
+                "symfony/http-kernel": ">=2.2,<2.3-dev",
+                "symfony/security": ">=2.2,<2.3-dev",
+                "symfony/stopwatch": ">=2.2,<2.3-dev",
+                "symfony/validator": ">=2.2,<2.3-dev"
+            },
+            "suggest": {
+                "doctrine/data-fixtures": "1.0.*",
+                "doctrine/dbal": "~2.2",
+                "doctrine/orm": "~2.2,>=2.2.3",
+                "symfony/form": "2.2.*",
+                "symfony/validator": "2.2.*"
+            },
+            "type": "symfony-bridge",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Bridge\\Doctrine\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Doctrine Bridge",
+            "homepage": "http://symfony.com",
+            "time": "2013-04-01 08:05:23"
+        },
+        {
             "name": "symfony/event-dispatcher",
             "version": "2.2.x-dev",
             "target-dir": "Symfony/Component/EventDispatcher",
@@ -1945,6 +2011,7 @@
         "silex/silex": 20,
         "silex/web-profiler": 20,
         "symfony/config": 20,
+        "symfony/doctrine-bridge": 20,
         "symfony/form": 20,
         "symfony/http-kernel": 20,
         "symfony/locale": 20,
