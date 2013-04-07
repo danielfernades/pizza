@@ -45,12 +45,6 @@ class OrderItem
     protected $user;
 
     /**
-     * @var string
-     * @ORM\Column(name="username", type="string")
-     */
-    protected $username;
-
-    /**
      * @return int
      */
     public function getId()
@@ -119,7 +113,6 @@ class OrderItem
     public function setUser(User $user)
     {
         $this->user = $user;
-        $this->setUsername($user->getUsername());
         return $this;
     }
 
@@ -132,28 +125,10 @@ class OrderItem
     }
 
     /**
-     * @param string $username
-     * @return OrderItem
-     */
-    public function setUsername($username)
-    {
-        $this->username = $username;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUsername()
-    {
-        return $this->username;
-    }
-
-    /**
      * @return string
      */
     public function __toString()
     {
-        return $this->getEat() . ' || ' . $this->getDrink() . ' || ' . $this->getUsername();
+        return $this->getEat() . ' || ' . $this->getDrink() . ' || ' . $this->getUser()->getUsername();
     }
 }
