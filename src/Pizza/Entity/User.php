@@ -78,7 +78,7 @@ class User implements UserInterface
 
     /**
      * @var Collection
-     * @ORM\OneToMany(targetEntity="OrderItem", mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="OrderItem", mappedBy="user", cascade={"persist"})
      */
     protected $orderitems;
 
