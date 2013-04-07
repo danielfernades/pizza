@@ -33,7 +33,7 @@ class UserController extends AbstractController
     public function listAction()
     {
         // get orders
-        $arrUsers = $this->getEntityManager()->getRepository("Pizza\\Entity\\User")->findAll();
+        $arrUsers = $this->getEntityManager()->getRepository(get_class(new User()))->findAll();
 
         // return the rendered template
         return $this->renderView('User/list.html.twig', array('users' => $arrUsers));
@@ -48,7 +48,7 @@ class UserController extends AbstractController
         if(!is_null($id))
         {
             // get user
-            $objUser = $this->getEntityManager()->getRepository("Pizza\\Entity\\User")->find($id);
+            $objUser = $this->getEntityManager()->getRepository(get_class(new User()))->find($id);
             /** @var User $objUser */
 
             if(is_null($objUser))
@@ -110,7 +110,7 @@ class UserController extends AbstractController
     public function deleteAction($id)
     {
         // get the user
-        $objUser = $this->getEntityManager()->getRepository("Pizza\\Entity\\User")->find($id);
+        $objUser = $this->getEntityManager()->getRepository(get_class(new User()))->find($id);
         /** @var User $objUser */
 
         // check if user exists

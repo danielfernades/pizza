@@ -43,7 +43,7 @@ class OrderController extends AbstractController
     public function listAction()
     {
         // get orders
-        $arrOrders = $this->getEntityManager()->getRepository("Pizza\\Entity\\Order")->findAll();
+        $arrOrders = $this->getEntityManager()->getRepository(get_class(new Order()))->findAll();
 
         // return the rendered template
         return $this->renderView('Order/list.html.twig', array('orders' => $arrOrders));
@@ -73,7 +73,7 @@ class OrderController extends AbstractController
     public function showAction($id)
     {
         // get the order
-        $objOrder = $this->getEntityManager()->getRepository("Pizza\\Entity\\Order")->find($id);
+        $objOrder = $this->getEntityManager()->getRepository(get_class(new Order()))->find($id);
 
         // check if order exists
         if(is_null($objOrder))
@@ -92,7 +92,7 @@ class OrderController extends AbstractController
     public function deleteAction($id)
     {
         // get the order
-        $objOrder = $this->getEntityManager()->getRepository("Pizza\\Entity\\Order")->find($id);
+        $objOrder = $this->getEntityManager()->getRepository(get_class(new Order()))->find($id);
 
         // check if order exists
         if(is_null($objOrder))
@@ -115,7 +115,7 @@ class OrderController extends AbstractController
     public function listitemAction($id)
     {
         // get the order
-        $objOrder = $this->getEntityManager()->getRepository("Pizza\\Entity\\Order")->find($id);
+        $objOrder = $this->getEntityManager()->getRepository(get_class(new Order()))->find($id);
 
         // check if order exists
         if(is_null($objOrder))
@@ -137,7 +137,7 @@ class OrderController extends AbstractController
         if(!is_null($itemid))
         {
             // get the orderitem
-            $objOrderItem = $this->getEntityManager()->getRepository("Pizza\\Entity\\OrderItem")->find($itemid);
+            $objOrderItem = $this->getEntityManager()->getRepository(get_class(new OrderItem()))->find($itemid);
             /** @var OrderItem $objOrderItem */
 
             // check if order exists
@@ -152,7 +152,7 @@ class OrderController extends AbstractController
             $objOrderItem = new OrderItem();
 
             // get the order
-            $objOrder = $this->getEntityManager()->getRepository("Pizza\\Entity\\Order")->find($id);
+            $objOrder = $this->getEntityManager()->getRepository(get_class(new Order()))->find($id);
             /** @var Order $objOrder */
 
             // set order
@@ -160,7 +160,7 @@ class OrderController extends AbstractController
         }
 
         // create user form
-        $objOrderItemForm = $this->getFormFactory()->create(new OrderItemType(), $objOrderItem);
+        $objOrderItemForm = $this->getFormFactory()->create(new OrderItemType($this->getEntityManager()), $objOrderItem);
 
         if('POST' == $this->getRequest()->getMethod())
         {
@@ -195,7 +195,7 @@ class OrderController extends AbstractController
     public function deleteitemAction($id, $itemid)
     {
         // get the orderitem
-        $objOrderItem = $this->getEntityManager()->getRepository("Pizza\\Entity\\OrderItem")->find($itemid);
+        $objOrderItem = $this->getEntityManager()->getRepository(get_class(new OrderItem()))->find($itemid);
 
         // check if order exists
         if(is_null($objOrderItem))
