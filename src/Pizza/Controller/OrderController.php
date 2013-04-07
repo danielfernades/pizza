@@ -43,10 +43,10 @@ class OrderController extends AbstractController
     public function listAction()
     {
         // get orders
-        $arrOrders = $this->getEntityManager()->getRepository(get_class(new Order()))->findAll();
+        $orders = $this->getEntityManager()->getRepository(get_class(new Order()))->findAll();
 
         // return the rendered template
-        return $this->renderView('Order/list.html.twig', array('orders' => $arrOrders));
+        return $this->renderView('Order/list.html.twig', array('orders' => $orders));
     }
 
     /**
@@ -55,15 +55,15 @@ class OrderController extends AbstractController
     public function createAction()
     {
         // create a new order
-        $objOrder = new Order();
-        $objOrder->setOrderDatetime(new \DateTime());
+        $order = new Order();
+        $order->setOrderDatetime(new \DateTime());
 
         // persists the order
-        $this->getEntityManager()->persist($objOrder);
+        $this->getEntityManager()->persist($order);
         $this->getEntityManager()->flush();
 
         // redirect to the edit mask
-        return $this->app->redirect($this->getUrlGenerator()->generate('order_item_list', array('id' => $objOrder->getId())), 302);
+        return $this->app->redirect($this->getUrlGenerator()->generate('order_item_list', array('id' => $order->getId())), 302);
     }
 
     /**
@@ -73,16 +73,16 @@ class OrderController extends AbstractController
     public function showAction($id)
     {
         // get the order
-        $objOrder = $this->getEntityManager()->getRepository(get_class(new Order()))->find($id);
+        $order = $this->getEntityManager()->getRepository(get_class(new Order()))->find($id);
 
         // check if order exists
-        if(is_null($objOrder))
+        if(is_null($order))
         {
             $this->app->abort(404, "Order with id {$id} not found!");
         }
 
         // return the rendered template
-        return $this->renderView('Order/show.html.twig', array('order' => $objOrder));
+        return $this->renderView('Order/show.html.twig', array('order' => $order));
     }
 
     /**
@@ -92,16 +92,16 @@ class OrderController extends AbstractController
     public function deleteAction($id)
     {
         // get the order
-        $objOrder = $this->getEntityManager()->getRepository(get_class(new Order()))->find($id);
+        $order = $this->getEntityManager()->getRepository(get_class(new Order()))->find($id);
 
         // check if order exists
-        if(is_null($objOrder))
+        if(is_null($order))
         {
             $this->app->abort(404, "Order with id {$id} not found!");
         }
 
         // remove the order
-        $this->getEntityManager()->remove($objOrder);
+        $this->getEntityManager()->remove($order);
         $this->getEntityManager()->flush();
 
         // redirect to the list
@@ -115,16 +115,16 @@ class OrderController extends AbstractController
     public function listitemAction($id)
     {
         // get the order
-        $objOrder = $this->getEntityManager()->getRepository(get_class(new Order()))->find($id);
+        $order = $this->getEntityManager()->getRepository(get_class(new Order()))->find($id);
 
         // check if order exists
-        if(is_null($objOrder))
+        if(is_null($order))
         {
             $this->app->abort(404, "Order with id {$id} not found!");
         }
 
         // return the rendered template
-        return $this->renderView('Order/listitem.html.twig', array('order' => $objOrder));
+        return $this->renderView('Order/listitem.html.twig', array('order' => $order));
     }
 
     /**
@@ -137,11 +137,11 @@ class OrderController extends AbstractController
         if(!is_null($itemid))
         {
             // get the orderitem
-            $objOrderItem = $this->getEntityManager()->getRepository(get_class(new OrderItem()))->find($itemid);
-            /** @var OrderItem $objOrderItem */
+            $orderItem = $this->getEntityManager()->getRepository(get_class(new OrderItem()))->find($itemid);
+            /** @var OrderItem $orderItem */
 
             // check if order exists
-            if(is_null($objOrderItem))
+            if(is_null($orderItem))
             {
                 $this->app->abort(404, "Orderitem with id {$itemid} of order {$id} not found!");
             }
@@ -149,41 +149,41 @@ class OrderController extends AbstractController
         else
         {
             // create a new order
-            $objOrderItem = new OrderItem();
+            $orderItem = new OrderItem();
 
             // get the order
-            $objOrder = $this->getEntityManager()->getRepository(get_class(new Order()))->find($id);
-            /** @var Order $objOrder */
+            $order = $this->getEntityManager()->getRepository(get_class(new Order()))->find($id);
+            /** @var Order $order */
 
             // set order
-            $objOrderItem->setOrder($objOrder);
+            $orderItem->setOrder($order);
         }
 
         // create user form
-        $objOrderItemForm = $this->getFormFactory()->create(new OrderItemType($this->getEntityManager()), $objOrderItem);
+        $orderItemForm = $this->getFormFactory()->create(new OrderItemType($this->getEntityManager()), $orderItem);
 
         if('POST' == $this->getRequest()->getMethod())
         {
             // bind request
-            $objOrderItemForm->bind($this->getRequest());
+            $orderItemForm->bind($this->getRequest());
 
             // check if the input is valid
-            if($objOrderItemForm->isValid())
+            if($orderItemForm->isValid())
             {
                 // persists the order
-                $this->getEntityManager()->persist($objOrderItem);
+                $this->getEntityManager()->persist($orderItem);
                 $this->getEntityManager()->flush();
 
                 // redirect to the edit mask
-                return $this->app->redirect($this->getUrlGenerator()->generate('order_item_list', array('id' => $objOrderItem->getOrder()->getId())), 302);
+                return $this->app->redirect($this->getUrlGenerator()->generate('order_item_list', array('id' => $orderItem->getOrder()->getId())), 302);
             }
         }
 
         // return the rendered template
         return $this->renderView('Order/edititem.html.twig', array
         (
-            'orderitem' => $objOrderItem,
-            'orderitemform' => $objOrderItemForm->createView(),
+            'orderitem' => $orderItem,
+            'orderitemform' => $orderItemForm->createView(),
         ));
     }
 
@@ -195,16 +195,16 @@ class OrderController extends AbstractController
     public function deleteitemAction($id, $itemid)
     {
         // get the orderitem
-        $objOrderItem = $this->getEntityManager()->getRepository(get_class(new OrderItem()))->find($itemid);
+        $orderItem = $this->getEntityManager()->getRepository(get_class(new OrderItem()))->find($itemid);
 
         // check if order exists
-        if(is_null($objOrderItem))
+        if(is_null($orderItem))
         {
             $this->app->abort(404, "Orderitem with id {$itemid} of order {$id} not found!");
         }
 
         // remove the orderitem
-        $this->getEntityManager()->remove($objOrderItem);
+        $this->getEntityManager()->remove($orderItem);
         $this->getEntityManager()->flush();
 
         // redirect to the list

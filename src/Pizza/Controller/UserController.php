@@ -33,10 +33,10 @@ class UserController extends AbstractController
     public function listAction()
     {
         // get orders
-        $arrUsers = $this->getEntityManager()->getRepository(get_class(new User()))->findAll();
+        $users = $this->getEntityManager()->getRepository(get_class(new User()))->findAll();
 
         // return the rendered template
-        return $this->renderView('User/list.html.twig', array('users' => $arrUsers));
+        return $this->renderView('User/list.html.twig', array('users' => $users));
     }
 
     /**
@@ -48,58 +48,58 @@ class UserController extends AbstractController
         if(!is_null($id))
         {
             // get user
-            $objUser = $this->getEntityManager()->getRepository(get_class(new User()))->find($id);
-            /** @var User $objUser */
+            $user = $this->getEntityManager()->getRepository(get_class(new User()))->find($id);
+            /** @var User $user */
 
-            if(is_null($objUser))
+            if(is_null($user))
             {
                 $this->app->abort(404, "user with id {$id} not found!");
             }
         }
         else
         {
-            $objUser = new User();
-            $objUser->setSalt(uniqid(mt_rand()));
+            $user = new User();
+            $user->setSalt(uniqid(mt_rand()));
         }
 
         // create user form
-        $objUserForm = $this->getFormFactory()->create(new UserType(), $objUser);
+        $userForm = $this->getFormFactory()->create(new UserType(), $user);
 
         if('POST' == $this->getRequest()->getMethod())
         {
             // bind request
-            $objUserForm->bind($this->getRequest());
+            $userForm->bind($this->getRequest());
 
             // check if the input is valid
-            if($objUserForm->isValid())
+            if($userForm->isValid())
             {
                 // update password
-                if($objUser->updatePassword($this->app['security.encoder.digest']))
+                if($user->updatePassword($this->app['security.encoder.digest']))
                 {
                     // you can't remove admin role on yourself
-                    if($objUser->getId() == $this->getSecurity()->getToken()->getUser()->getId())
+                    if($user->getId() == $this->getSecurity()->getToken()->getUser()->getId())
                     {
-                        $objUser->addRole(User::ROLE_ADMIN);
+                        $user->addRole(User::ROLE_ADMIN);
                     }
 
                     // persist the user
-                    $this->getEntityManager()->persist($objUser);
+                    $this->getEntityManager()->persist($user);
                     $this->getEntityManager()->flush();
 
                     // redirect to the edit mask
-                    return $this->app->redirect($this->getUrlGenerator()->generate('user_edit', array('id' => $objUser->getId())), 302);
+                    return $this->app->redirect($this->getUrlGenerator()->generate('user_edit', array('id' => $user->getId())), 302);
                 }
                 else
                 {
-                    $objUserForm->addError(new FormError($this->getTranslator()->trans("No password set", array(), "frontend")));
+                    $userForm->addError(new FormError($this->getTranslator()->trans("No password set", array(), "frontend")));
                 }
             }
         }
 
         // return the rendered template
         return $this->renderView('User/edit.html.twig', array(
-            'user' => $objUser,
-            'userform' => $objUserForm->createView(),
+            'user' => $user,
+            'userform' => $userForm->createView(),
         ));
     }
 
@@ -110,23 +110,23 @@ class UserController extends AbstractController
     public function deleteAction($id)
     {
         // get the user
-        $objUser = $this->getEntityManager()->getRepository(get_class(new User()))->find($id);
-        /** @var User $objUser */
+        $user = $this->getEntityManager()->getRepository(get_class(new User()))->find($id);
+        /** @var User $user */
 
         // check if user exists
-        if(is_null($objUser))
+        if(is_null($user))
         {
             $this->app->abort(404, "User with id {$id} not found!");
         }
 
         // check the user doesn't delete himself
-        if($objUser->getId() == $this->getSecurity()->getToken()->getUser()->getId())
+        if($user->getId() == $this->getSecurity()->getToken()->getUser()->getId())
         {
             $this->app->abort(500, "You can't delete yourself!");
         }
 
         // remove the user
-        $this->getEntityManager()->remove($objUser);
+        $this->getEntityManager()->remove($user);
         $this->getEntityManager()->flush();
 
         // redirect to the list
