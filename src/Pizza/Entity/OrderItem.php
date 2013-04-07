@@ -38,10 +38,11 @@ class OrderItem
     protected $drink;
 
     /**
-     * @var string $employee
-     * @ORM\Column(name="employee", type="string", nullable=true)
+     * @var User
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="orderitems")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    protected $employee;
+    protected $user;
 
     /**
      * @return int
@@ -106,21 +107,21 @@ class OrderItem
     }
 
     /**
-     * @param $employee
+     * @param User $user
      * @return OrderItem
      */
-    public function setEmployee($employee)
+    public function setUser(User $user)
     {
-        $this->employee = $employee;
+        $this->user = $user;
         return $this;
     }
 
     /**
-     * @return string
+     * @return User
      */
-    public function getEmployee()
+    public function getUser()
     {
-        return $this->employee;
+        return $this->user;
     }
 
     /**
@@ -128,6 +129,6 @@ class OrderItem
      */
     public function __toString()
     {
-        return $this->getEat() . ' || ' . $this->getDrink() . ' || ' . $this->getEmployee();
+        return $this->getEat() . ' || ' . $this->getDrink() . ' || ' . $this->getUser()->getUsername();
     }
 }

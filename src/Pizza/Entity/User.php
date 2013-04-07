@@ -2,6 +2,8 @@
 
 namespace Pizza\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
@@ -75,6 +77,12 @@ class User implements UserInterface
     protected $enabled = false;
 
     /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="OrderItem", mappedBy="user", orphanRemoval=true)
+     */
+    protected $orderitems;
+
+    /**
      * roles
      */
     const ROLE_ADMIN = 'ROLE_ADMIN';
@@ -83,6 +91,7 @@ class User implements UserInterface
     public function __construct()
     {
         $this->roles = array();
+        $this->orderitems = new ArrayCollection();
     }
 
     /**
@@ -259,6 +268,36 @@ class User implements UserInterface
     public function isEnabled()
     {
         return $this->enabled;
+    }
+
+    /**
+     * @param OrderItem $orderItem
+     * @return User
+     */
+    public function addOrderItem(OrderItem $orderItem)
+    {
+        $this->orderitems->add($orderItem);
+        $orderItem->setUser($this);
+        return $this;
+    }
+
+    /**
+     * @param OrderItem $orderItem
+     * @return User
+     */
+    public function removeOrderItem(OrderItem $orderItem)
+    {
+        $this->orderitems->removeElement($orderItem);
+        $orderItem->setUser(null);
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getOrderItems()
+    {
+        return $this->orderitems;
     }
 
     /**

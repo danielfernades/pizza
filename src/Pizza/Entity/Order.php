@@ -29,7 +29,7 @@ class Order
     /**
      * @var Collection
      * @ORM\OneToMany(targetEntity="Pizza\Entity\OrderItem", mappedBy="order", cascade={"remove", "persist"}, orphanRemoval=true)
-     * @ORM\OrderBy({"eat" = "ASC", "drink" = "ASC", "employee" = "ASC"})
+     * @ORM\OrderBy({"eat" = "ASC", "drink" = "ASC"})
      */
     protected $orderitems;
 
