@@ -81,7 +81,14 @@ $app->register(new FormServiceProvider(), array(
 ));
 
 $app['form.extensions'] = $app->share($app->extend('form.extensions', function ($extensions, $app) {
-    $managerRegistry = new ManagerRegistry(null, array(), array('orm.em'), null, null, '\Doctrine\ORM\Proxy\Proxy');
+    $managerRegistry = new ManagerRegistry(
+        null,
+        array('db'),
+        array('orm.em'),
+        null,
+        null,
+        'Doctrine\ORM\Proxy\Proxy'
+    );
     $managerRegistry->setContainer($app);
     $extensions[] = new DoctrineOrmExtension($managerRegistry);
     return $extensions;
