@@ -28,7 +28,7 @@ class UserType extends AbstractType
     {
         parent::setDefaultOptions($resolver);
         $resolver->setDefaults(array(
-            'data_class' => "Pizza\\Entity\\User",
+            'data_class' => get_class(new User()),
         ));
     }
 

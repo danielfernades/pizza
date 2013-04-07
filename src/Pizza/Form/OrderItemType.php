@@ -31,7 +31,7 @@ class OrderItemType extends AbstractType
     {
         parent::setDefaultOptions($resolver);
         $resolver->setDefaults(array(
-            'data_class' => "Pizza\\Entity\\OrderItem",
+            'data_class' => get_class(new OrderItem()),
         ));
     }
 
