@@ -28,7 +28,7 @@ class Order
 
     /**
      * @var Collection
-     * @ORM\OneToMany(targetEntity="Pizza\Entity\OrderItem", mappedBy="order", cascade={"remove", "persist"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Pizza\Entity\OrderItem", mappedBy="order", cascade={"all"}, orphanRemoval=true)
      * @ORM\OrderBy({"eat" = "ASC", "drink" = "ASC"})
      */
     protected $orderitems;
