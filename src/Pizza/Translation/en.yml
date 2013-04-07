@@ -38,7 +38,7 @@ user:
     create: create user
   edit:
     title: User
-    submit: add user
+    submit: save user
 
 form:
   label:
