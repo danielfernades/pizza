@@ -1,5 +1,5 @@
 {
-    "hash": "3982d1ac301c4d46879e8508747a0d1c",
+    "hash": "b5ba06b14c8eaeeacb1941d29ae74642",
     "packages": [
         {
             "name": "dflydev/doctrine-orm-service-provider",
@@ -1032,6 +1032,62 @@
             "time": "2013-03-25 20:03:44"
         },
         {
+            "name": "symfony/debug",
+            "version": "dev-master",
+            "target-dir": "Symfony/Component/Debug",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Debug.git",
+                "reference": "cc615424a19193d1c96886cc0d4ff6125eac7cde"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Debug/zipball/cc615424a19193d1c96886cc0d4ff6125eac7cde",
+                "reference": "cc615424a19193d1c96886cc0d4ff6125eac7cde",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "symfony/http-foundation": ">=2.1,<3.0",
+                "symfony/http-kernel": ">=2.1,<3.0"
+            },
+            "suggest": {
+                "symfony/class-loader": "~2.1",
+                "symfony/http-foundation": "~2.1",
+                "symfony/http-kernel": "~2.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Debug\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Debug Component",
+            "homepage": "http://symfony.com",
+            "time": "2013-04-07 20:25:23"
+        },
+        {
             "name": "symfony/doctrine-bridge",
             "version": "2.2.x-dev",
             "target-dir": "Symfony/Bridge/Doctrine",
@@ -2011,6 +2067,7 @@
         "silex/silex": 20,
         "silex/web-profiler": 20,
         "symfony/config": 20,
+        "symfony/debug": 20,
         "symfony/doctrine-bridge": 20,
         "symfony/form": 20,
         "symfony/http-kernel": 20,

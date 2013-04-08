@@ -6,6 +6,7 @@
         "silex/silex": "1.0.*@dev",
         "silex/web-profiler": "1.0.*@dev",
         "symfony/config": "2.2.*@dev",
+        "symfony/debug": "2.3.*@dev",
         "symfony/doctrine-bridge": "2.2.*@dev",
         "symfony/form": "2.2.*@dev",
         "symfony/http-kernel": "2.2.*@dev",
