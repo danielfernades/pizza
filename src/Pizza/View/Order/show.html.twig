@@ -10,7 +10,7 @@
             <tr>
                 <th>{{ "form.label.eat"|trans() }}</th>
                 <th>{{ "form.label.drink"|trans() }}</th>
-                <th>{{ "form.label.employee"|trans() }}</th>
+                <th>{{ "form.label.username"|trans() }}</th>
             </tr>
             </thead>
             <tbody>
@@ -18,7 +18,7 @@
                 <tr>
                     <td>{{ orderitem.eat }}</td>
                     <td>{{ orderitem.drink }}</td>
-                    <td>{{ orderitem.employee }}</td>
+                    <td>{{ orderitem.user.username }}</td>
                 </tr>
             {% endfor %}
             </tbody>
