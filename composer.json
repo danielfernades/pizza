@@ -4,7 +4,7 @@
         "igorw/config-service-provider": "1.0.*@dev",
         "knplabs/knp-menu": "2.0.*@dev",
         "silex/silex": "1.0.*@dev",
-        "silex/web-profiler": "1.0.*@dev",
+        "silex/web-profiler": "~1.0",
         "symfony/config": "2.2.*@dev",
         "symfony/debug": "2.3.*@dev",
         "symfony/doctrine-bridge": "2.2.*@dev",
