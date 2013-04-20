@@ -3,6 +3,7 @@
 namespace Pizza\Controller;
 
 use Doctrine\ORM\EntityManager;
+use Pizza\Entity\User;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Symfony\Component\Form\FormFactory;
@@ -99,6 +100,18 @@ abstract class AbstractController implements ControllerProviderInterface
     protected function getSecurity()
     {
         return $this->app['security'];
+    }
+
+    /**
+     * @return User|Null|string
+     */
+    protected function getUser()
+    {
+        if(is_null($this->getSecurity()->getToken())) {
+            return null;
+        }
+
+        return $this->getSecurity()->getToken()->getUser();
     }
 
     /**

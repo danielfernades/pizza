@@ -77,7 +77,7 @@ class UserController extends AbstractController
                 if($user->updatePassword($this->app['security.encoder.digest']))
                 {
                     // you can't remove admin role on yourself
-                    if($user->getId() == $this->getSecurity()->getToken()->getUser()->getId())
+                    if($user->getId() == $this->getUser()->getId())
                     {
                         $user->addRole(User::ROLE_ADMIN);
                     }
@@ -120,7 +120,7 @@ class UserController extends AbstractController
         }
 
         // check the user doesn't delete himself
-        if($user->getId() == $this->getSecurity()->getToken()->getUser()->getId())
+        if($user->getId() == $this->getUser()->getId())
         {
             $this->app->abort(500, "You can't delete yourself!");
         }
