@@ -54,6 +54,11 @@ class OrderController extends AbstractController
      */
     public function createAction()
     {
+        // check permission
+        if(!$this->getSecurity()->isGranted('ROLE_ADMIN')) {
+            $this->app->abort(403, "You have not the permission to create a order!");
+        }
+
         // create a new order
         $order = new Order();
         $order->setOrderDatetime(new \DateTime());
@@ -91,6 +96,11 @@ class OrderController extends AbstractController
      */
     public function deleteAction($id)
     {
+        // check permission
+        if(!$this->getSecurity()->isGranted('ROLE_ADMIN')) {
+            $this->app->abort(403, "You have not the permission to delete a order!");
+        }
+
         // get the order
         $order = $this->getEntityManager()->getRepository(get_class(new Order()))->find($id);
 
@@ -145,6 +155,11 @@ class OrderController extends AbstractController
             {
                 $this->app->abort(404, "Orderitem with id {$itemid} of order {$id} not found!");
             }
+
+            if(!$this->getSecurity()->isGranted('ROLE_ADMIN') &&
+                $orderItem->getUser()->getId() != $this->getUser()->getId()) {
+                $this->app->abort(403, "You have not the permission to edit a orderitem of another user!");
+            }
         }
         else
         {
@@ -160,7 +175,10 @@ class OrderController extends AbstractController
         }
 
         // create user form
-        $orderItemForm = $this->getFormFactory()->create(new OrderItemType($this->getEntityManager()), $orderItem);
+        $orderItemForm = $this->getFormFactory()->create(new OrderItemType(
+            $this->getUser(),
+            $this->getSecurity()->isGranted('ROLE_ADMIN')
+        ), $orderItem);
 
         if('POST' == $this->getRequest()->getMethod())
         {
@@ -196,11 +214,17 @@ class OrderController extends AbstractController
     {
         // get the orderitem
         $orderItem = $this->getEntityManager()->getRepository(get_class(new OrderItem()))->find($itemid);
+        /** @var OrderItem $orderItem */
 
         // check if order exists
         if(is_null($orderItem))
         {
             $this->app->abort(404, "Orderitem with id {$itemid} of order {$id} not found!");
+        }
+
+        if(!$this->getSecurity()->isGranted('ROLE_ADMIN') &&
+           $orderItem->getUser()->getId() != $this->getUser()->getId()) {
+            $this->app->abort(403, "You have not the permission to delete a orderitem of another user!");
         }
 
         // remove the orderitem
