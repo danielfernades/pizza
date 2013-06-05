@@ -7,14 +7,24 @@ use Pizza\Entity\User;
 use Pizza\Form\UserType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserController extends AbstractController
 {
     /**
+     * @return string
+     */
+    public function getMount()
+    {
+        return '{_locale}/user';
+    }
+
+    /**
      * @param ControllerCollection $controllers
      * @return ControllerCollection
      */
-    protected function getRoutes(ControllerCollection $controllers)
+    protected function addRoutes(ControllerCollection $controllers)
     {
         $controllers->get('/', array($this, 'listAction'))->bind('user_list');
         $controllers
@@ -33,27 +43,29 @@ class UserController extends AbstractController
     public function listAction()
     {
         // get orders
-        $users = $this->getEntityManager()->getRepository(get_class(new User()))->findAll();
+        $users = $this->getDoctrine()->getManager()->getRepository(get_class(new User()))->findAll();
 
         // return the rendered template
-        return $this->renderView('User/list.html.twig', array('users' => $users));
+        return $this->renderView('@Pizza/User/list.html.twig', array('users' => $users));
     }
 
     /**
+     * @param Request $request
      * @param $id
      * @return string|RedirectResponse
+     * @throws NotFoundHttpException
      */
-    public function editAction($id)
+    public function editAction(Request $request, $id)
     {
         if(!is_null($id))
         {
             // get user
-            $user = $this->getEntityManager()->getRepository(get_class(new User()))->find($id);
+            $user = $this->getDoctrine()->getManager()->getRepository(get_class(new User()))->find($id);
             /** @var User $user */
 
             if(is_null($user))
             {
-                $this->app->abort(404, "user with id {$id} not found!");
+                throw new NotFoundHttpException("user with id {$id} not found!");
             }
         }
         else
@@ -63,18 +75,18 @@ class UserController extends AbstractController
         }
 
         // create user form
-        $userForm = $this->getFormFactory()->create(new UserType(), $user);
+        $userForm = $this->createForm(new UserType(), $user);
 
-        if('POST' == $this->getRequest()->getMethod())
+        if('POST' == $request->getMethod())
         {
             // bind request
-            $userForm->bind($this->getRequest());
+            $userForm->bind($request);
 
             // check if the input is valid
             if($userForm->isValid())
             {
                 // update password
-                if($user->updatePassword($this->app['security.encoder.digest']))
+                if($user->updatePassword($this->container['security.encoder.digest']))
                 {
                     // you can't remove admin role on yourself
                     if($user->getId() == $this->getUser()->getId())
@@ -83,11 +95,11 @@ class UserController extends AbstractController
                     }
 
                     // persist the user
-                    $this->getEntityManager()->persist($user);
-                    $this->getEntityManager()->flush();
+                    $this->getDoctrine()->getManager()->persist($user);
+                    $this->getDoctrine()->getManager()->flush();
 
                     // redirect to the edit mask
-                    return $this->app->redirect($this->getUrlGenerator()->generate('user_edit', array('id' => $user->getId())), 302);
+                    return new RedirectResponse($this->getUrlGenerator()->generate('user_edit', array('id' => $user->getId())), 302);
                 }
                 else
                 {
@@ -97,7 +109,7 @@ class UserController extends AbstractController
         }
 
         // return the rendered template
-        return $this->renderView('User/edit.html.twig', array(
+        return $this->renderView('@Pizza/User/edit.html.twig', array(
             'user' => $user,
             'userform' => $userForm->createView(),
         ));
@@ -106,30 +118,32 @@ class UserController extends AbstractController
     /**
      * @param $id
      * @return RedirectResponse
+     * @throws \ErrorException
+     * @throws NotFoundHttpException
      */
     public function deleteAction($id)
     {
         // get the user
-        $user = $this->getEntityManager()->getRepository(get_class(new User()))->find($id);
+        $user = $this->getDoctrine()->getManager()->getRepository(get_class(new User()))->find($id);
         /** @var User $user */
 
         // check if user exists
         if(is_null($user))
         {
-            $this->app->abort(404, "User with id {$id} not found!");
+            throw new NotFoundHttpException("User with id {$id} not found!");
         }
 
         // check the user doesn't delete himself
         if($user->getId() == $this->getUser()->getId())
         {
-            $this->app->abort(500, "You can't delete yourself!");
+            throw new \ErrorException("You can't delete yourself!");
         }
 
         // remove the user
-        $this->getEntityManager()->remove($user);
-        $this->getEntityManager()->flush();
+        $this->getDoctrine()->getManager()->remove($user);
+        $this->getDoctrine()->getManager()->flush();
 
         // redirect to the list
-        return $this->app->redirect($this->getUrlGenerator()->generate('user_list'), 302);
+        return new RedirectResponse($this->getUrlGenerator()->generate('user_list'), 302);
     }
 }

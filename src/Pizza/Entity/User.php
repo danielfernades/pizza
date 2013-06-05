@@ -271,24 +271,30 @@ class User implements UserInterface
     }
 
     /**
-     * @param OrderItem $orderItem
-     * @return User
+     * @param OrderItem $orderitem
+     * @param bool $stopPropagation
+     * @return $this
      */
-    public function addOrderItem(OrderItem $orderItem)
+    public function addOrderItem(OrderItem $orderitem, $stopPropagation = false)
     {
-        $this->orderitems->add($orderItem);
-        $orderItem->setUser($this);
+        $this->orderitems->add($orderitem);
+        if(!$stopPropagation) {
+            $orderitem->setUser($this, true);
+        }
         return $this;
     }
 
     /**
-     * @param OrderItem $orderItem
-     * @return User
+     * @param OrderItem $orderitem
+     * @param bool $stopPropagation
+     * @return $this
      */
-    public function removeOrderItem(OrderItem $orderItem)
+    public function removeOrderItem(OrderItem $orderitem, $stopPropagation = false)
     {
-        $this->orderitems->removeElement($orderItem);
-        $orderItem->setUser(null);
+        $this->orderitems->removeElement($orderitem);
+        if(!$stopPropagation) {
+            $orderitem->setUser(null, true);
+        }
         return $this;
     }
 

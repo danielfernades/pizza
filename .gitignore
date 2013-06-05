@@ -1,5 +1,6 @@
 app/cache
-app/config.yml
+app/config/parameters.yml
+app/log
 vendor
-composer.phar
+
 .idea

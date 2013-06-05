@@ -16,14 +16,20 @@ class UserProvider implements UserProviderInterface
      */
     protected $em;
 
+    /**
+     * @var string
+     */
+    protected $userClass;
+
     public function __construct(EntityManager $em)
     {
         $this->em = $em;
+        $this->userClass = get_class(new User());
     }
 
     public function loadUserByUsername($username)
     {
-        $objUser = $this->em->getRepository("Pizza\\Entity\\User")->findOneBy(array('username' => $username));
+        $objUser = $this->em->getRepository($this->userClass)->findOneBy(array('username' => $username));
 
         if(is_null($objUser))
         {
@@ -44,6 +50,6 @@ class UserProvider implements UserProviderInterface
 
     public function supportsClass($class)
     {
-        return $class === "Pizza\\Entity\\User";
+        return $class === $this->userClass;
     }
 }

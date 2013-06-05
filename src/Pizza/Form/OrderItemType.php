@@ -43,7 +43,7 @@ class OrderItemType extends AbstractType
             ->add('eat')
             ->add('drink')
             ->add('user', 'entity', array(
-                'class' => get_class(new User()),
+                'class' => get_class($user),
                 'property' => 'username',
                 'query_builder' => function(EntityRepository $er) use($user, $isGranted) {
                     $qb = $er->createQueryBuilder('u');

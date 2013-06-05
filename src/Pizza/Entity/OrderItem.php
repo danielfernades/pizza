@@ -53,11 +53,20 @@ class OrderItem
     }
 
     /**
-     * @param $order
-     * @return OrderItem
+     * @param Order $order
+     * @param bool $stopPropagation
+     * @return $this
      */
-    public function setOrder(Order $order)
+    public function setOrder(Order $order = null, $stopPropagation = false)
     {
+        if(!$stopPropagation) {
+            if(!is_null($this->order)) {
+                $this->order->removeOrderItem($this, true);
+            }
+            if(!is_null($order)) {
+                $order->addOrderItem($this, true);
+            }
+        }
         $this->order = $order;
         return $this;
     }
@@ -108,10 +117,19 @@ class OrderItem
 
     /**
      * @param User $user
-     * @return OrderItem
+     * @param bool $stopPropagation
+     * @return $this
      */
-    public function setUser(User $user)
+    public function setUser(User $user = null, $stopPropagation = false)
     {
+        if(!$stopPropagation) {
+            if(!is_null($this->user)) {
+                $this->user->removeOrderItem($this, true);
+            }
+            if(!is_null($user)) {
+                $user->addOrderItem($this, true);
+            }
+        }
         $this->user = $user;
         return $this;
     }

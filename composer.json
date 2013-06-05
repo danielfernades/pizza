@@ -1,29 +1,32 @@
 {
-    "require": {
-        "dflydev/doctrine-orm-service-provider": "1.0.*@dev",
-        "igorw/config-service-provider": "1.0.*@dev",
-        "knplabs/knp-menu": "2.0.*@dev",
-        "silex/silex": "1.0.*@dev",
-        "silex/web-profiler": "~1.0",
-        "symfony/config": "2.2.*@dev",
-        "symfony/debug": "2.3.*@dev",
-        "symfony/doctrine-bridge": "2.2.*@dev",
-        "symfony/form": "2.2.*@dev",
-        "symfony/http-kernel": "2.2.*@dev",
-        "symfony/locale": "2.2.*@dev",
-        "symfony/security": "2.2.*@dev",
-        "symfony/translation": "2.2.*@dev",
-        "symfony/twig-bridge": "2.2.*@dev",
-        "symfony/validator": "2.2.*@dev",
-        "symfony/yaml": "2.2.*@dev",
-        "twig/twig": ">=1.9.1,<2.0-dev"
-    },
-    "minimum-stability": "dev",
+    "name": "dominikzogg/silexskeleton",
+    "license": "MIT",
+    "type": "project",
+    "description": "A symfony like silex skeleton",
     "autoload":
     {
         "psr-0":
         {
-            "Pizza": "src/"
+            "": "src/",
+            "Application": "app/"
         }
+    },
+    "require": {
+        "dflydev/doctrine-orm-service-provider": "v1.0.0",
+        "dominikzogg/doctrine-orm-registry-manager-provider": "1.0.*",
+        "igorw/config-service-provider": "v1.2.0",
+        "knplabs/knp-menu": "1.1.*",
+        "monolog/monolog": "1.5.*",
+        "silex/silex": "~1.0",
+        "swiftmailer/swiftmailer": ">=4.1.2,<4.2-dev",
+        "symfony/doctrine-bridge": "2.2.*",
+        "symfony/config": "2.2.*",
+        "symfony/form": "2.2.*",
+        "symfony/security": "2.2.*",
+        "symfony/translation": "2.2.*",
+        "symfony/twig-bridge": "2.2.*",
+        "symfony/validator": "2.2.*",
+        "symfony/yaml": "2.2.*",
+        "twig/extensions": "1.0.*"
     }
 }

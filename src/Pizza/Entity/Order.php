@@ -27,8 +27,8 @@ class Order
     protected $orderdatetime;
 
     /**
-     * @var Collection
-     * @ORM\OneToMany(targetEntity="Pizza\Entity\OrderItem", mappedBy="order", cascade={"all"}, orphanRemoval=true)
+     * @var OrderItem[]
+     * @ORM\OneToMany(targetEntity="OrderItem", mappedBy="order", cascade={"all"}, orphanRemoval=true)
      * @ORM\OrderBy({"eat" = "ASC", "drink" = "ASC"})
      */
     protected $orderitems;
@@ -67,29 +67,35 @@ class Order
     }
 
     /**
-     * @param OrderItem $orderItem
-     * @return Order
+     * @param OrderItem $orderitem
+     * @param bool $stopPropagation
+     * @return $this
      */
-    public function addOrderItem(OrderItem $orderItem)
+    public function addOrderItem(OrderItem $orderitem, $stopPropagation = false)
     {
-        $this->orderitems->add($orderItem);
-        $orderItem->setOrder($this);
+        $this->orderitems->add($orderitem);
+        if(!$stopPropagation) {
+            $orderitem->setOrder($this, true);
+        }
         return $this;
     }
 
     /**
-     * @param OrderItem $orderItem
-     * @return Order
+     * @param OrderItem $orderitem
+     * @param bool $stopPropagation
+     * @return $this
      */
-    public function removeOrderItem(OrderItem $orderItem)
+    public function removeOrderItem(OrderItem $orderitem, $stopPropagation = false)
     {
-        $this->orderitems->removeElement($orderItem);
-        $orderItem->setOrder(null);
+        $this->orderitems->removeElement($orderitem);
+        if(!$stopPropagation) {
+            $orderitem->setOrder(null, true);
+        }
         return $this;
     }
 
     /**
-     * @return Collection
+     * @return OrderItem[]
      */
     public function getOrderItems()
     {

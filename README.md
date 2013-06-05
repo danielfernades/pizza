@@ -1,4 +1,4 @@
-# pizza tool (fun project, based on [Silex](http://silex.sensiolabs.org))
+# pizza tool (fun project, based on [silexskeleton](https://github.com/dominikzogg/silexskeleton))
 
 ## installation
 

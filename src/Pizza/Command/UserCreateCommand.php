@@ -49,7 +49,7 @@ EOT
         $password   = $input->getArgument('password');
         $admin = $input->getOption('admin');
 
-        $existingUser = $this->getEntityManager()->getRepository("Pizza\\Entity\\User")->findOneBy(array('username' => $username));
+        $existingUser = $this->getDoctrine()->getManager()->getRepository(get_class(new User()))->findOneBy(array('username' => $username));
 
         if(!is_null($existingUser)) {
             $output->writeln("<error>User with this username allready exists</error>");
@@ -68,14 +68,14 @@ EOT
             $user->addRole('ROLE_USER');
         }
 
-        if(!$user->updatePassword($this->getSilex()->offsetGet('security.encoder.digest')))
+        if(!$user->updatePassword($this->container['security.encoder.digest']))
         {
             $output->writeln("<error>Can't set password</error>");
             die();
         }
 
-        $this->getEntityManager()->persist($user);
-        $this->getEntityManager()->flush();
+        $this->getDoctrine()->getManager()->persist($user);
+        $this->getDoctrine()->getManager()->flush();
 
         $output->writeln("<success>New user with username '{$username}' created</success>");
     }

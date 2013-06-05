@@ -1,9 +1,9 @@
-{% extends "baselayout.html.twig" %}
+{% extends "@Pizza/baselayout.html.twig" %}
 
 {% block title %}{{ "order.edititem.title"|trans() }}{% endblock title %}
 
 {% block content %}
-    {% form_theme orderitemform 'Form/fields.html.twig' %}
+    {% form_theme orderitemform '@Pizza/Form/fields.html.twig' %}
     <form action="{{ url('order_item_edit', {'id': orderitem.order.id, 'itemid': orderitem.id }) }}" method="post" {{ form_enctype(orderitemform) }}>
         <h1>{{ "order.edititem.title"|trans() }}</h1>
         {% for key,field in orderitemform %}

@@ -2,39 +2,27 @@
 
 namespace Pizza\Command;
 
-use Doctrine\ORM\EntityManager;
+use Dominikzogg\Pimple\Doctrine\Registry\ManagerRegistry;
 use Symfony\Component\Console\Command\Command;
-use Silex\Application;
 
-class AbstractCommand extends Command
+abstract class AbstractCommand extends Command
 {
     /**
-     * @var Application
+     * @var \Pimple
      */
-    protected $silex;
+    protected $container;
 
-    public function setSilex(Application $silex)
+    public function __construct($name = null, \Pimple $container)
     {
-        $this->silex = $silex;
+        $this->container = $container;
+        parent::__construct($name);
     }
 
     /**
-     * @return Application
+     * @return ManagerRegistry
      */
-    public function getSilex()
+    protected function getDoctrine()
     {
-        if(is_null($this->silex))
-        {
-            $this->setSilex($this->getHelper('silex')->get());
-        }
-        return $this->silex;
-    }
-
-    /**
-     * @return EntityManager
-     */
-    protected function getEntityManager()
-    {
-        return $this->getSilex()->offsetGet('orm.em');
+        return $this->container['doctrine'];
     }
 }

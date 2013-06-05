@@ -1,9 +1,9 @@
-{% extends "baselayout.html.twig" %}
+{% extends "@Pizza/baselayout.html.twig" %}
 
 {% block title %}{{ "user.edit.title"|trans() }}{% endblock title %}
 
 {% block content %}
-    {% form_theme userform 'Form/fields.html.twig' %}
+    {% form_theme userform '@Pizza/Form/fields.html.twig' %}
     <form action="{{ url('user_edit', {'id': user.id }) }}" method="post" {{ form_enctype(userform) }}>
         <h1>{{ "user.edit.title"|trans() }}</h1>
         {{ form_errors(userform) }}
