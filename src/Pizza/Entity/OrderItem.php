@@ -54,20 +54,21 @@ class OrderItem
 
     /**
      * @param Order $order
-     * @param bool $stopPropagation
+     * @param bool  $stopPropagation
      * @return $this
      */
     public function setOrder(Order $order = null, $stopPropagation = false)
     {
-        if(!$stopPropagation) {
-            if(!is_null($this->order)) {
+        if (!$stopPropagation) {
+            if (!is_null($this->order)) {
                 $this->order->removeOrderItem($this, true);
             }
-            if(!is_null($order)) {
+            if (!is_null($order)) {
                 $order->addOrderItem($this, true);
             }
         }
         $this->order = $order;
+
         return $this;
     }
 
@@ -86,6 +87,7 @@ class OrderItem
     public function setEat($eat)
     {
         $this->eat = $eat;
+
         return $this;
     }
 
@@ -104,6 +106,7 @@ class OrderItem
     public function setDrink($drink)
     {
         $this->drink = $drink;
+
         return $this;
     }
 
@@ -122,15 +125,16 @@ class OrderItem
      */
     public function setUser(User $user = null, $stopPropagation = false)
     {
-        if(!$stopPropagation) {
-            if(!is_null($this->user)) {
+        if (!$stopPropagation) {
+            if (!is_null($this->user)) {
                 $this->user->removeOrderItem($this, true);
             }
-            if(!is_null($user)) {
+            if (!is_null($user)) {
                 $user->addOrderItem($this, true);
             }
         }
         $this->user = $user;
+
         return $this;
     }
 

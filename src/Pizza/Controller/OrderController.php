@@ -22,7 +22,7 @@ class OrderController extends AbstractController
     }
 
     /**
-     * @param ControllerCollection $controllers
+     * @param  ControllerCollection $controllers
      * @return ControllerCollection
      */
     protected function addRoutes(ControllerCollection $controllers)
@@ -45,6 +45,7 @@ class OrderController extends AbstractController
             ->assert('itemid', '\d+')
             ->bind('order_item_delete')
         ;
+
         return $controllers;
     }
 
@@ -67,7 +68,7 @@ class OrderController extends AbstractController
     public function createAction()
     {
         // check permission
-        if(!$this->getSecurity()->isGranted('ROLE_ADMIN')) {
+        if (!$this->getSecurity()->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException("You have not the permission to create a order!");
         }
 
@@ -94,8 +95,7 @@ class OrderController extends AbstractController
         $order = $this->getDoctrine()->getManager()->getRepository(get_class(new Order()))->find($id);
 
         // check if order exists
-        if(is_null($order))
-        {
+        if (is_null($order)) {
             throw new NotFoundHttpException("Order with id {$id} not found!");
         }
 
@@ -112,7 +112,7 @@ class OrderController extends AbstractController
     public function deleteAction($id)
     {
         // check permission
-        if(!$this->getSecurity()->isGranted('ROLE_ADMIN')) {
+        if (!$this->getSecurity()->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException("You have not the permission to delete a order!");
         }
 
@@ -120,8 +120,7 @@ class OrderController extends AbstractController
         $order = $this->getDoctrine()->getManager()->getRepository(get_class(new Order()))->find($id);
 
         // check if order exists
-        if(is_null($order))
-        {
+        if (is_null($order)) {
             throw new NotFoundHttpException("Order with id {$id} not found!");
         }
 
@@ -144,8 +143,7 @@ class OrderController extends AbstractController
         $order = $this->getDoctrine()->getManager()->getRepository(get_class(new Order()))->find($id);
 
         // check if order exists
-        if(is_null($order))
-        {
+        if (is_null($order)) {
             throw new NotFoundHttpException("Order with id {$id} not found!");
         }
 
@@ -156,22 +154,20 @@ class OrderController extends AbstractController
     /**
      * @param Request $request
      * @param $id
-     * @param null $itemid
+     * @param  null                    $itemid
      * @return string|RedirectResponse
      * @throws AccessDeniedException
      * @throws NotFoundHttpException
      */
     public function edititemAction(Request $request, $id, $itemid = null)
     {
-        if(!is_null($itemid))
-        {
+        if (!is_null($itemid)) {
             // get the orderitem
             $orderItem = $this->getDoctrine()->getManager()->getRepository(get_class(new OrderItem()))->find($itemid);
             /** @var OrderItem $orderItem */
 
             // check if order exists
-            if(is_null($orderItem))
-            {
+            if (is_null($orderItem)) {
                 throw new NotFoundHttpException("Orderitem with id {$itemid} of order {$id} not found!");
             }
 
@@ -179,9 +175,7 @@ class OrderController extends AbstractController
                 $orderItem->getUser()->getId() != $this->getUser()->getId()) {
                 throw new AccessDeniedException("You have not the permission to edit a orderitem of another user!");
             }
-        }
-        else
-        {
+        } else {
             // create a new order
             $orderItem = new OrderItem();
 
@@ -199,14 +193,12 @@ class OrderController extends AbstractController
             $this->getSecurity()->isGranted('ROLE_ADMIN')
         ), $orderItem);
 
-        if('POST' == $request->getMethod())
-        {
+        if ('POST' == $request->getMethod()) {
             // bind request
             $orderItemForm->bind($request);
 
             // check if the input is valid
-            if($orderItemForm->isValid())
-            {
+            if ($orderItemForm->isValid()) {
                 // persists the order
                 $this->getDoctrine()->getManager()->persist($orderItem);
                 $this->getDoctrine()->getManager()->flush();
@@ -238,8 +230,7 @@ class OrderController extends AbstractController
         /** @var OrderItem $orderItem */
 
         // check if order exists
-        if(is_null($orderItem))
-        {
+        if (is_null($orderItem)) {
             throw new NotFoundHttpException("Orderitem with id {$itemid} of order {$id} not found!");
         }
 

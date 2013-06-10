@@ -16,12 +16,13 @@ class LoginController extends AbstractController
     }
 
     /**
-     * @param ControllerCollection $controllers
+     * @param  ControllerCollection $controllers
      * @return ControllerCollection
      */
     protected function addRoutes(ControllerCollection $controllers)
     {
         $controllers->get('/login', array($this, 'loginAction'))->bind('login');
+
         return $controllers;
     }
 

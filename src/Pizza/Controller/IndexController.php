@@ -16,12 +16,13 @@ class IndexController extends AbstractController
     }
 
     /**
-     * @param ControllerCollection $controllers
+     * @param  ControllerCollection $controllers
      * @return ControllerCollection
      */
     protected function addRoutes(ControllerCollection $controllers)
     {
         $controllers->get('/', array($this, 'indexAction'));
+
         return $controllers;
     }
 

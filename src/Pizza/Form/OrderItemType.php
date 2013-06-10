@@ -32,7 +32,7 @@ class OrderItemType extends AbstractType
 
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -45,13 +45,14 @@ class OrderItemType extends AbstractType
             ->add('user', 'entity', array(
                 'class' => get_class($user),
                 'property' => 'username',
-                'query_builder' => function(EntityRepository $er) use($user, $isGranted) {
+                'query_builder' => function(EntityRepository $er) use ($user, $isGranted) {
                     $qb = $er->createQueryBuilder('u');
-                    if(!$isGranted) {
+                    if (!$isGranted) {
                         $qb->andWhere('u.id = :id');
                         $qb->setParameter('id', $user->getId());
                     }
                     $qb->orderBy('u.username', 'ASC');
+
                     return $qb;
                 },
             ))

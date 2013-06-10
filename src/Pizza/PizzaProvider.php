@@ -19,11 +19,12 @@ class PizzaProvider extends AbstractSilexBundleProvider
         $app->register(new KnpMenuServiceProvider());
         $app->register(new MenuProvider());
 
-        $app['twig'] = $app->share($app->extend('twig', function($twig) use($app) {
+        $app['twig'] = $app->share($app->extend('twig', function($twig) use ($app) {
             $twig->addExtension(new MenuExtension(new Helper(
                     $app['knp_menu.renderer_provider'],
                     $app['knp_menu.menu_provider']))
             );
+
             return $twig;
         }));
 

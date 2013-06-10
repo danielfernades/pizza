@@ -31,8 +31,7 @@ class UserProvider implements UserProviderInterface
     {
         $objUser = $this->em->getRepository($this->userClass)->findOneBy(array('username' => $username));
 
-        if(is_null($objUser))
-        {
+        if (is_null($objUser)) {
             throw new UsernameNotFoundException(sprintf('Username "%s" does not exist.', $username));
         }
 

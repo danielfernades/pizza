@@ -3,7 +3,6 @@
 namespace Pizza\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
@@ -109,6 +108,7 @@ class User implements UserInterface
     public function setUsername($username)
     {
         $this->username = $username;
+
         return $this;
     }
 
@@ -121,19 +121,18 @@ class User implements UserInterface
     }
 
     /**
-     * @param PasswordEncoderInterface $passwordencoder
+     * @param  PasswordEncoderInterface $passwordencoder
      * @return bool
      */
     public function updatePassword(PasswordEncoderInterface $passwordencoder)
     {
-        if(!empty($this->plainPassword))
-        {
+        if (!empty($this->plainPassword)) {
             $this->password = $passwordencoder->encodePassword($this->plainPassword, $this->getSalt());
         }
-        if($this->getPassword())
-        {
+        if ($this->getPassword()) {
             return true;
         }
+
         return false;
     }
 
@@ -152,6 +151,7 @@ class User implements UserInterface
     public function setPlainPassword($plainPassword)
     {
         $this->plainPassword = $plainPassword;
+
         return $this;
     }
 
@@ -170,6 +170,7 @@ class User implements UserInterface
     public function setRepeatedPassword($repeatedPassword)
     {
         $this->repeatedPassword = $repeatedPassword;
+
         return $this;
     }
 
@@ -188,6 +189,7 @@ class User implements UserInterface
     public function setSalt($salt)
     {
         $this->salt = $salt;
+
         return $this;
     }
 
@@ -200,12 +202,13 @@ class User implements UserInterface
     }
 
     /**
-     * @param string $email
+     * @param  string $email
      * @return User
      */
     public function setEmail($email)
     {
         $this->email = $email;
+
         return $this;
     }
 
@@ -223,10 +226,10 @@ class User implements UserInterface
      */
     public function addRole($role)
     {
-        if(!in_array($role, $this->roles))
-        {
+        if (!in_array($role, $this->roles)) {
             $this->roles[] = $role;
         }
+
         return $this;
     }
 
@@ -237,10 +240,10 @@ class User implements UserInterface
     public function removeRole($role)
     {
         $mixKey = array_search($role, $this->roles);
-        if(is_numeric($mixKey))
-        {
+        if (is_numeric($mixKey)) {
             unset($this->roles[$mixKey]);
         }
+
         return $this;
     }
 
@@ -259,6 +262,7 @@ class User implements UserInterface
     public function setEnabled($enabled)
     {
         $this->enabled = $enabled;
+
         return $this;
     }
 
@@ -272,29 +276,31 @@ class User implements UserInterface
 
     /**
      * @param OrderItem $orderitem
-     * @param bool $stopPropagation
+     * @param bool      $stopPropagation
      * @return $this
      */
     public function addOrderItem(OrderItem $orderitem, $stopPropagation = false)
     {
         $this->orderitems->add($orderitem);
-        if(!$stopPropagation) {
+        if (!$stopPropagation) {
             $orderitem->setUser($this, true);
         }
+
         return $this;
     }
 
     /**
      * @param OrderItem $orderitem
-     * @param bool $stopPropagation
+     * @param bool      $stopPropagation
      * @return $this
      */
     public function removeOrderItem(OrderItem $orderitem, $stopPropagation = false)
     {
         $this->orderitems->removeElement($orderitem);
-        if(!$stopPropagation) {
+        if (!$stopPropagation) {
             $orderitem->setUser(null, true);
         }
+
         return $this;
     }
 
@@ -323,20 +329,18 @@ class User implements UserInterface
     /**
      * @param ClassMetadata $metadata
      */
-    static public function loadValidatorMetadata(ClassMetadata $metadata)
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addConstraint(new Assert\Callback(array(
-            'methods' => array(function(User $user, ExecutionContext $context)
-            {
-                if($user->getPlainPassword() && ($user->getPlainPassword() !== $user->getRepeatedPassword()))
-                {
+            'methods' => array(function(User $user, ExecutionContext $context) {
+                if ($user->getPlainPassword() && ($user->getPlainPassword() !== $user->getRepeatedPassword())) {
                     $context->addViolation("passwords doesn't match");
                 }
             }),
         )));
     }
 
-    static public function possibleRoles()
+    public static function possibleRoles()
     {
         return array
         (

@@ -51,7 +51,7 @@ EOT
 
         $existingUser = $this->getDoctrine()->getManager()->getRepository(get_class(new User()))->findOneBy(array('username' => $username));
 
-        if(!is_null($existingUser)) {
+        if (!is_null($existingUser)) {
             $output->writeln("<error>User with this username allready exists</error>");
             die();
         }
@@ -62,14 +62,13 @@ EOT
         $user->setPlainPassword($password);
         $user->setSalt(uniqid(mt_rand()));
         $user->setEnabled(true);
-        if($admin) {
+        if ($admin) {
             $user->addRole('ROLE_ADMIN');
         } else {
             $user->addRole('ROLE_USER');
         }
 
-        if(!$user->updatePassword($this->container['security.encoder.digest']))
-        {
+        if (!$user->updatePassword($this->container['security.encoder.digest'])) {
             $output->writeln("<error>Can't set password</error>");
             die();
         }
@@ -81,8 +80,8 @@ EOT
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
+     * @param  InputInterface  $input
+     * @param  OutputInterface $output
      * @throws \Exception
      */
     protected function interact(InputInterface $input, OutputInterface $output)

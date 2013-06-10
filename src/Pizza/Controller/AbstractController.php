@@ -13,13 +13,13 @@ abstract class AbstractController extends BaseController
      */
     protected function getUser()
     {
-        if(is_null($this->getSecurity()->getToken())) {
+        if (is_null($this->getSecurity()->getToken())) {
             return null;
         }
 
         $user = $this->getSecurity()->getToken()->getUser();
 
-        if($user instanceof User) {
+        if ($user instanceof User) {
             $user = $this->getDoctrine()->getManager()->getRepository(get_class($user))->find($user->getId());
         }
 

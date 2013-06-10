@@ -21,7 +21,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @param ControllerCollection $controllers
+     * @param  ControllerCollection $controllers
      * @return ControllerCollection
      */
     protected function addRoutes(ControllerCollection $controllers)
@@ -34,6 +34,7 @@ class UserController extends AbstractController
             ->bind('user_edit')
         ;
         $controllers->get('/delete/{id}', array($this, 'deleteAction'))->assert('id', '\d+')->bind('user_delete');
+
         return $controllers;
     }
 
@@ -57,19 +58,15 @@ class UserController extends AbstractController
      */
     public function editAction(Request $request, $id)
     {
-        if(!is_null($id))
-        {
+        if (!is_null($id)) {
             // get user
             $user = $this->getDoctrine()->getManager()->getRepository(get_class(new User()))->find($id);
             /** @var User $user */
 
-            if(is_null($user))
-            {
+            if (is_null($user)) {
                 throw new NotFoundHttpException("user with id {$id} not found!");
             }
-        }
-        else
-        {
+        } else {
             $user = new User();
             $user->setSalt(uniqid(mt_rand()));
         }
@@ -77,20 +74,16 @@ class UserController extends AbstractController
         // create user form
         $userForm = $this->createForm(new UserType(), $user);
 
-        if('POST' == $request->getMethod())
-        {
+        if ('POST' == $request->getMethod()) {
             // bind request
             $userForm->bind($request);
 
             // check if the input is valid
-            if($userForm->isValid())
-            {
+            if ($userForm->isValid()) {
                 // update password
-                if($user->updatePassword($this->container['security.encoder.digest']))
-                {
+                if ($user->updatePassword($this->container['security.encoder.digest'])) {
                     // you can't remove admin role on yourself
-                    if($user->getId() == $this->getUser()->getId())
-                    {
+                    if ($user->getId() == $this->getUser()->getId()) {
                         $user->addRole(User::ROLE_ADMIN);
                     }
 
@@ -100,9 +93,7 @@ class UserController extends AbstractController
 
                     // redirect to the edit mask
                     return new RedirectResponse($this->getUrlGenerator()->generate('user_edit', array('id' => $user->getId())), 302);
-                }
-                else
-                {
+                } else {
                     $userForm->addError(new FormError($this->getTranslator()->trans("No password set", array(), "frontend")));
                 }
             }
@@ -128,14 +119,12 @@ class UserController extends AbstractController
         /** @var User $user */
 
         // check if user exists
-        if(is_null($user))
-        {
+        if (is_null($user)) {
             throw new NotFoundHttpException("User with id {$id} not found!");
         }
 
         // check the user doesn't delete himself
-        if($user->getId() == $this->getUser()->getId())
-        {
+        if ($user->getId() == $this->getUser()->getId()) {
             throw new \ErrorException("You can't delete yourself!");
         }
 

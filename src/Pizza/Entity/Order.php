@@ -3,7 +3,6 @@
 namespace Pizza\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -48,12 +47,13 @@ class Order
 
     /**
      * Set orderdatetime
-     * @param \DateTime $orderdatetime
+     * @param  \DateTime $orderdatetime
      * @return Order
      */
     public function setOrderDatetime(\DateTime $orderdatetime)
     {
         $this->orderdatetime = $orderdatetime;
+
         return $this;
     }
 
@@ -68,29 +68,31 @@ class Order
 
     /**
      * @param OrderItem $orderitem
-     * @param bool $stopPropagation
+     * @param bool      $stopPropagation
      * @return $this
      */
     public function addOrderItem(OrderItem $orderitem, $stopPropagation = false)
     {
         $this->orderitems->add($orderitem);
-        if(!$stopPropagation) {
+        if (!$stopPropagation) {
             $orderitem->setOrder($this, true);
         }
+
         return $this;
     }
 
     /**
      * @param OrderItem $orderitem
-     * @param bool $stopPropagation
+     * @param bool      $stopPropagation
      * @return $this
      */
     public function removeOrderItem(OrderItem $orderitem, $stopPropagation = false)
     {
         $this->orderitems->removeElement($orderitem);
-        if(!$stopPropagation) {
+        if (!$stopPropagation) {
             $orderitem->setOrder(null, true);
         }
+
         return $this;
     }
 
