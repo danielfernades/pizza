@@ -4,8 +4,6 @@ namespace Application\Controller;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
-use Silex\Application;
-use Silex\ControllerCollection;
 use Silex\HttpCache;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,7 +14,7 @@ use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Validator\Validator;
 
-abstract class AbstractController implements MountableControllerProviderInterface
+abstract class AbstractController implements ControllerRouteInterface
 {
     /**
      * @var \Pimple
@@ -24,29 +22,11 @@ abstract class AbstractController implements MountableControllerProviderInterfac
     protected $container;
 
     /**
-     * @return string
+     * @param \Pimple $container
      */
-    abstract public function getMount();
-
-    public function connect(Application $app)
+    public function __construct(\Pimple $container)
     {
-        $this->container = $app;
-
-        return $this->addRoutes($this->getControllerFactory());
-    }
-
-    /**
-     * @param  ControllerCollection $controllerCollection
-     * @return ControllerCollection
-     */
-    abstract protected function addRoutes(ControllerCollection $controllerCollection);
-
-    /**
-     * @return ControllerCollection
-     */
-    protected function getControllerFactory()
-    {
-        return $this->container['controllers_factory'];
+        $this->container = $container;
     }
 
     /**

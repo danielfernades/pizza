@@ -4,7 +4,7 @@ namespace Pizza\Controller;
 
 use Pizza\Entity\Order;
 use Pizza\Entity\OrderItem;
-use Silex\ControllerCollection;
+use Silex\Application;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Pizza\Form\OrderItemType;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,39 +14,28 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class OrderController extends AbstractController
 {
     /**
-     * @return string
+     * @param Application $app
+     * @param $serviceId
      */
-    public function getMount()
+    public static function addRoutes(Application $app, $serviceId)
     {
-        return '{_locale}/order';
-    }
-
-    /**
-     * @param  ControllerCollection $controllers
-     * @return ControllerCollection
-     */
-    protected function addRoutes(ControllerCollection $controllers)
-    {
-        $controllers->get('/', array($this, 'listAction'))->bind('order_list');
-        $controllers->get('/create', array($this, 'createAction'))->bind('order_create');
-        $controllers->get('/show/{id}', array($this, 'showAction'))->assert('id', '\d+')->bind('order_show');
-        $controllers->get('/delete/{id}', array($this, 'deleteAction'))->assert('id', '\d+')->bind('order_delete');
-        $controllers->get('/items/{id}', array($this, 'listitemAction'))->assert('id', '\d+')->bind('order_item_list');
-        $controllers
-            ->match('/items/{id}/edit/{itemid}', array($this, 'edititemAction'))
+        $prefix = '/{_locale}/order';
+        $app->get($prefix, $serviceId . ':listAction')->bind('order_list');
+        $app->get($prefix . '/create', $serviceId . ':createAction')->bind('order_create');
+        $app->get($prefix . '/show/{id}', $serviceId . ':showAction')->assert('id', '\d+')->bind('order_show');
+        $app->get($prefix . '/delete/{id}', $serviceId . ':deleteAction')->assert('id', '\d+')->bind('order_delete');
+        $app->get($prefix . '/items/{id}', $serviceId . ':listitemAction')->assert('id', '\d+')->bind('order_item_list');
+        $app->match($prefix . '/items/{id}/edit/{itemid}', $serviceId . ':edititemAction')
             ->value('itemid', null)
             ->assert('id', '\d+')
             ->assert('itemid', '\d+')
             ->bind('order_item_edit')
         ;
-        $controllers
-            ->get('/items/{id}/delete/{itemid}', array($this, 'deleteitemAction'))
+        $app->match($prefix . '/items/{id}/delete/{itemid}', $serviceId . ':deleteitemAction')
             ->assert('id', '\d+')
             ->assert('itemid', '\d+')
             ->bind('order_item_delete')
         ;
-
-        return $controllers;
     }
 
     /**

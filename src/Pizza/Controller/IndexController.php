@@ -2,28 +2,14 @@
 
 namespace Pizza\Controller;
 
-use Silex\ControllerCollection;
+use Silex\Application;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class IndexController extends AbstractController
 {
-    /**
-     * @return string
-     */
-    public function getMount()
+    public static function addRoutes(Application $app, $serviceId)
     {
-        return '/';
-    }
-
-    /**
-     * @param  ControllerCollection $controllers
-     * @return ControllerCollection
-     */
-    protected function addRoutes(ControllerCollection $controllers)
-    {
-        $controllers->get('/', array($this, 'indexAction'));
-
-        return $controllers;
+        $app->get('/', $serviceId . ':indexAction');
     }
 
     /**

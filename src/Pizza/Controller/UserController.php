@@ -2,7 +2,7 @@
 
 namespace Pizza\Controller;
 
-use Silex\ControllerCollection;
+use Silex\Application;
 use Pizza\Entity\User;
 use Pizza\Form\UserType;
 use Symfony\Component\Form\FormError;
@@ -13,29 +13,19 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class UserController extends AbstractController
 {
     /**
-     * @return string
+     * @param Application $app
+     * @param $serviceId
      */
-    public function getMount()
+    public static function addRoutes(Application $app, $serviceId)
     {
-        return '{_locale}/user';
-    }
-
-    /**
-     * @param  ControllerCollection $controllers
-     * @return ControllerCollection
-     */
-    protected function addRoutes(ControllerCollection $controllers)
-    {
-        $controllers->get('/', array($this, 'listAction'))->bind('user_list');
-        $controllers
-            ->match('/edit/{id}', array($this, 'editAction'))
+        $prefix = '/{_locale}/user';
+        $app->get($prefix, $serviceId . ':listAction')->bind('user_list');
+        $app->match($prefix . '/edit/{id}', $serviceId . ':editAction')
             ->value('id', null)
             ->assert('id', '\d+')
             ->bind('user_edit')
         ;
-        $controllers->get('/delete/{id}', array($this, 'deleteAction'))->assert('id', '\d+')->bind('user_delete');
-
-        return $controllers;
+        $app->get($prefix . '/delete/{id}', $serviceId . ':deleteAction')->assert('id', '\d+')->bind('user_delete');
     }
 
     /**
