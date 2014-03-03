@@ -1,25 +1,31 @@
 <?php
 
-use Application\Provider\AdvancedKnpMenuServiceProvider;
-use Dominikzogg\Silex\Provider\DoctrineOrmManagerRegistryProvider;
-use Doctrine\Common\Annotations\AnnotationRegistry;
 use Dflydev\Silex\Provider\DoctrineOrm\DoctrineOrmServiceProvider;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Igorw\Silex\ConfigServiceProvider;
-use Silex\Provider\DoctrineServiceProvider;
-use Silex\Provider\FormServiceProvider;
-use Silex\Provider\HttpCacheServiceProvider;
-use Silex\Provider\MonologServiceProvider;
-use Silex\Provider\SecurityServiceProvider;
-use Silex\Provider\SessionServiceProvider;
-use Silex\Provider\ServiceControllerServiceProvider;
-use Silex\Provider\SwiftmailerServiceProvider;
+use Knp\Menu\Matcher\Matcher;
+use Knp\Menu\Silex\KnpMenuServiceProvider;
+use Knp\Menu\Silex\Voter\RouteVoter;
+use Silex\Application;
 use Silex\Provider\TranslationServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\UrlGeneratorServiceProvider;
+use Silex\Provider\SessionServiceProvider;
 use Silex\Provider\ValidatorServiceProvider;
+use Silex\Provider\FormServiceProvider;
+use Silex\Provider\HttpCacheServiceProvider;
+use Silex\Provider\SecurityServiceProvider;
+use Silex\Provider\SwiftmailerServiceProvider;
+use Silex\Provider\MonologServiceProvider;
+use Silex\Provider\DoctrineServiceProvider;
+use Silex\Provider\ServiceControllerServiceProvider;
 use Silex\Provider\WebProfilerServiceProvider;
-use Silex\Application;
-use Symfony\Bridge\Doctrine\Form\DoctrineOrmExtension;
+use Saxulum\AsseticTwig\Silex\Provider\AsseticTwigProvider;
+use Saxulum\Console\Silex\Provider\ConsoleProvider;
+use Saxulum\DoctrineOrmManagerRegistry\Silex\Provider\DoctrineOrmManagerRegistryProvider;
+use Saxulum\RouteController\Provider\RouteControllerProvider;
+use Saxulum\Translation\Silex\Provider\TranslationProvider;
+use Saxulum\SaxulumWebProfiler\Provider\SaxulumWebProfilerProvider;
 
 // define the root dir
 $rootDir = dirname(__DIR__);
@@ -32,17 +38,10 @@ if (!$loader = @include $rootDir . '/vendor/autoload.php') {
 // annotation registry
 AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
 
-// php intl fallback
-if (!function_exists('intl_get_error_code')) {
-    require_once $rootDir . '/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/functions.php';
-    $loader->add('', $rootDir . '/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs');
-}
-
 // create new silex app
 $app = new Application();
 $app['debug'] = getenv('APP_DEBUG') ? true : false;
 
-// register all provided silex providers
 $app->register(new TranslationServiceProvider());
 $app->register(new TwigServiceProvider());
 $app->register(new UrlGeneratorServiceProvider());
@@ -56,21 +55,29 @@ $app->register(new MonologServiceProvider());
 $app->register(new DoctrineServiceProvider());
 $app->register(new ServiceControllerServiceProvider());
 
-// register usefull external providers
+$app->register(new ConsoleProvider());
 $app->register(new DoctrineOrmServiceProvider());
 $app->register(new DoctrineOrmManagerRegistryProvider());
-$app->register(new AdvancedKnpMenuServiceProvider());
+$app->register(new KnpMenuServiceProvider());
+$app->register(new AsseticTwigProvider());
+$app->register(new RouteControllerProvider());
+$app->register(new TranslationProvider());
+
+$app['knp_menu.route.voter'] = $app->share(function (Application $app) {
+    $voter = new RouteVoter();
+    $voter->setRequest($app['request']);
+
+    return $voter;
+});
+
+$app['knp_menu.matcher.configure'] = $app->protect(function (Matcher $matcher) use ($app) {
+    $matcher->addVoter($app['knp_menu.route.voter']);
+});
 
 if ($app['debug']) {
     $app->register(new WebProfilerServiceProvider());
+    $app->register(new SaxulumWebProfilerProvider());
 }
-
-// add form extension
-$app['form.extensions'] = $app->share($app->extend('form.extensions', function ($extensions, $app) {
-    $extensions[] = new DoctrineOrmExtension($app['doctrine']);
-
-    return $extensions;
-}));
 
 // config overrides
 $environment = getenv('APP_ENV') ?: 'prod';
@@ -79,7 +86,7 @@ $app->register(new ConfigServiceProvider("{$rootDir}/app/config/config_{$environ
 $app->register(new ConfigServiceProvider("{$rootDir}/app/config/parameters.yml"));
 
 // load all project providers
-require 'registerprovider.php';
+$app->register(new \Pizza\PizzaProvider());
 
 // return the app
 return $app;

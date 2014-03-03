@@ -3,16 +3,17 @@
 namespace Pizza\Controller;
 
 use Silex\Application;
+use Saxulum\RouteController\Annotation\DI;
+use Saxulum\RouteController\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
+/**
+ * @DI(injectContainer=true)
+ */
 class IndexController extends AbstractController
 {
-    public static function addRoutes(Application $app, $serviceId)
-    {
-        $app->get('/', $serviceId . ':indexAction');
-    }
-
     /**
+     * @Route("/", bind="index", method="GET")
      * @return RedirectResponse
      */
     public function indexAction()

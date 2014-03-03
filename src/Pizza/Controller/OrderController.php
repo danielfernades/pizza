@@ -7,38 +7,20 @@ use Pizza\Entity\OrderItem;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Pizza\Form\OrderItemType;
+use Saxulum\RouteController\Annotation\DI;
+use Saxulum\RouteController\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
+/**
+ * @Route("/{_locale}/order")
+ * @DI(injectContainer=true)
+ */
 class OrderController extends AbstractController
 {
     /**
-     * @param Application $app
-     * @param $serviceId
-     */
-    public static function addRoutes(Application $app, $serviceId)
-    {
-        $prefix = '/{_locale}/order';
-        $app->get($prefix, $serviceId . ':listAction')->bind('order_list');
-        $app->get($prefix . '/create', $serviceId . ':createAction')->bind('order_create');
-        $app->get($prefix . '/show/{id}', $serviceId . ':showAction')->assert('id', '\d+')->bind('order_show');
-        $app->get($prefix . '/delete/{id}', $serviceId . ':deleteAction')->assert('id', '\d+')->bind('order_delete');
-        $app->get($prefix . '/items/{id}', $serviceId . ':listitemAction')->assert('id', '\d+')->bind('order_item_list');
-        $app->match($prefix . '/items/{id}/edit/{itemid}', $serviceId . ':edititemAction')
-            ->value('itemid', null)
-            ->assert('id', '\d+')
-            ->assert('itemid', '\d+')
-            ->bind('order_item_edit')
-        ;
-        $app->match($prefix . '/items/{id}/delete/{itemid}', $serviceId . ':deleteitemAction')
-            ->assert('id', '\d+')
-            ->assert('itemid', '\d+')
-            ->bind('order_item_delete')
-        ;
-    }
-
-    /**
+     * @Route("/", bind="order_list", method="GET")
      * @return string
      */
     public function listAction()
@@ -51,6 +33,7 @@ class OrderController extends AbstractController
     }
 
     /**
+     * @Route("/create", bind="order_create", method="GET")
      * @return RedirectResponse
      * @throws AccessDeniedException
      */
@@ -74,6 +57,7 @@ class OrderController extends AbstractController
     }
 
     /**
+     * @Route("/show/{id}", bind="order_show", asserts={"id"="\d+"}, method="GET")
      * @param $id
      * @return string
      * @throws NotFoundHttpException
@@ -93,6 +77,7 @@ class OrderController extends AbstractController
     }
 
     /**
+     * @Route("/delete/{id}", bind="order_delete", asserts={"id"="\d+"}, method="GET")
      * @param $id
      * @return RedirectResponse
      * @throws AccessDeniedException
@@ -122,6 +107,7 @@ class OrderController extends AbstractController
     }
 
     /**
+     * @Route("/items/{id}", bind="order_item_list", asserts={"id"="\d+"}, method="GET")
      * @param $id
      * @return string
      * @throws NotFoundHttpException
@@ -141,6 +127,7 @@ class OrderController extends AbstractController
     }
 
     /**
+     * @Route("/items/{id}/edit/{itemid}", bind="order_item_edit", asserts={"id"="\d+", "itemid"="\d+"}, values={"itemid"=null})
      * @param Request $request
      * @param $id
      * @param  null                    $itemid
@@ -206,6 +193,7 @@ class OrderController extends AbstractController
     }
 
     /**
+     * @Route("/items/{id}/edit/{itemid}", bind="order_item_delete", asserts={"id"="\d+", "itemid"="\d+"}, method="GET")
      * @param $id
      * @param $itemid
      * @return RedirectResponse

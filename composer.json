@@ -1,33 +1,61 @@
 {
-    "name": "dominikzogg/silexskeleton",
+    "name": "saxulum/saxulum",
     "license": "MIT",
     "type": "project",
-    "description": "A symfony like silex skeleton",
+    "description": "saxulum a silex skeleton, very symfony2 like",
     "autoload":
     {
         "psr-0":
         {
-            "": "src/",
-            "Application": "app/"
+            "": "src/"
         }
     },
     "require": {
-        "dflydev/doctrine-orm-service-provider": "v1.0.0",
-        "dominikzogg/doctrine-orm-manager-registry-provider": "~1.1",
-        "igorw/config-service-provider": "v1.2.0",
-        "knplabs/knp-menu": "2.0.*@dev",
+        "php": ">=5.3.3",
+        "dflydev/doctrine-orm-service-provider": "~1.0.4",
+        "igorw/config-service-provider": "~1.2",
+        "knplabs/knp-menu": "2.0.*@alpha",
+        "leafo/lessphp": "~0.4.0",
         "monolog/monolog": "1.5.*",
-        "silex/silex": "~1.0",
-        "silex/web-profiler": "dev-master@dev",
-        "swiftmailer/swiftmailer": ">=4.1.2,<4.2-dev",
-        "symfony/doctrine-bridge": ">=2.3,<3.0",
-        "symfony/config": ">=2.3,<3.0",
-        "symfony/form": ">=2.3,<3.0",
-        "symfony/security": ">=2.3,<3.0",
-        "symfony/translation": ">=2.3,<3.0",
-        "symfony/twig-bridge": ">=2.3,<3.0",
-        "symfony/validator": ">=2.3,<3.0",
-        "symfony/yaml": ">=2.3,<3.0",
-        "twig/extensions": "1.0.*"
-    }
+        "saxulum/saxulum-assetic-twig-provider": "~1.2",
+        "saxulum/saxulum-bundle-provider": "~1.0.1",
+        "saxulum/saxulum-console": "~1.2",
+        "saxulum/saxulum-route-controller-provider": "~1.0.5",
+        "saxulum/saxulum-doctrine-orm-manager-registry-provider": "~2.0",
+        "saxulum/saxulum-doctrine-orm-commands": "~1.1",
+        "saxulum/saxulum-translation-provider": "~1.0",
+        "saxulum/saxulum-webprofiler-provider": "~1.1",
+        "silex/silex": "~1.1",
+        "silex/web-profiler": "~1.0.2",
+        "swiftmailer/swiftmailer": "~5.0",
+        "symfony/doctrine-bridge": "~2.4",
+        "symfony/config": "~2.4",
+        "symfony/finder": "~2.4",
+        "symfony/form": "~2.4",
+        "symfony/security": "~2.4",
+        "symfony/translation": "~2.4",
+        "symfony/twig-bridge": "~2.4",
+        "symfony/validator": "~2.4",
+        "symfony/yaml": "~2.4",
+        "twig/twig": "~1.2",
+
+		"saxulum/saxulum-bootstrap-provider": "dev-master@dev",
+        "jquery/jquery": "~1.9.1",
+        "twbs/bootstrap": "~2.3.2"
+    },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "jquery/jquery",
+                "version": "1.9.1",
+                "dist": {
+                    "url": "http://code.jquery.com/jquery-1.9.1.js",
+                    "type": "file"
+                }
+            }
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

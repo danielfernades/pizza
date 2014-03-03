@@ -5,30 +5,21 @@ namespace Pizza\Controller;
 use Silex\Application;
 use Pizza\Entity\User;
 use Pizza\Form\UserType;
+use Saxulum\RouteController\Annotation\DI;
+use Saxulum\RouteController\Annotation\Route;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+/**
+ * @Route("/{_locale}/user")
+ * @DI(injectContainer=true)
+ */
 class UserController extends AbstractController
 {
     /**
-     * @param Application $app
-     * @param $serviceId
-     */
-    public static function addRoutes(Application $app, $serviceId)
-    {
-        $prefix = '/{_locale}/user';
-        $app->get($prefix, $serviceId . ':listAction')->bind('user_list');
-        $app->match($prefix . '/edit/{id}', $serviceId . ':editAction')
-            ->value('id', null)
-            ->assert('id', '\d+')
-            ->bind('user_edit')
-        ;
-        $app->get($prefix . '/delete/{id}', $serviceId . ':deleteAction')->assert('id', '\d+')->bind('user_delete');
-    }
-
-    /**
+     * @Route("/", bind="user_list", method="GET")
      * @return string
      */
     public function listAction()
@@ -41,6 +32,7 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/edit/{id}", bind="user_edit", asserts={"id"="\d+"}, values={"id"=null})
      * @param Request $request
      * @param $id
      * @return string|RedirectResponse
@@ -97,6 +89,7 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/delete/{id}", bind="user_delete", asserts={"id"="\d+"}, method="GET")
      * @param $id
      * @return RedirectResponse
      * @throws \ErrorException

@@ -2,16 +2,20 @@
 
 namespace Pizza;
 
-use Application\Provider\AbstractSilexBundleProvider;
 use Pizza\Provider\MenuProvider;
 use Pizza\Provider\UserProvider;
+use Saxulum\BundleProvider\Provider\AbstractBundleProvider;
 use Silex\Application;
 
-class PizzaProvider extends AbstractSilexBundleProvider
+class PizzaProvider extends AbstractBundleProvider
 {
     public function register(Application $app)
     {
-        parent::register($app);
+        $this->addCommands($app);
+        $this->addControllers($app);
+        $this->addDoctrineOrmMappings($app);
+        $this->addTranslatorRessources($app);
+        $this->addTwigLoaderFilesystemPath($app);
 
         $app->register(new MenuProvider());
 
@@ -41,4 +45,6 @@ class PizzaProvider extends AbstractSilexBundleProvider
             'ROLE_ADMIN' => array('ROLE_USER'),
         );
     }
+
+    public function boot(Application $app) {}
 }

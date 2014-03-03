@@ -16,3 +16,13 @@ monolog.logfile: %root_dir%/app/log/%env%.log
 orm.proxies_dir: %root_dir%/app/cache/%env%/doctrine/proxies
 
 profiler.cache_dir: %root_dir%/app/cache/%env%/profiler
+
+assetic.asset.root: %root_dir%
+assetic.asset.asset_root: %root_dir%/web/assets
+assetic_asset_path: assets
+
+route_controller_cache: %root_dir%/app/cache/%env%/controller
+
+console.cache: %root_dir%/app/cache/%env%/console
+
+translation_cache: %root_dir%/app/cache/%env%/translation

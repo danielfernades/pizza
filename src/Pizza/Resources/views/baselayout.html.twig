@@ -4,12 +4,22 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>{% block title %}{{ "project"|trans() }}{% endblock title %}</title>
     {% block stylesheets %}
-        <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />
+        {% stylesheets filter='lessphp,csscopyfile' output='css/libraries.css'
+            'vendor/twbs/bootstrap/less/bootstrap.less'
+            'vendor/twbs/bootstrap/less/responsive.less'
+            'vendor/braincrafted/bootstrap-bundle/Bc/Bundle/BootstrapBundle/Resources/less/form.less'
+        %}
+            <link rel="stylesheet" href="{{ app.request.basepath }}/{{ app.assetic_asset_path }}/{{ asset_url }}" />
+        {% endstylesheets %}
     {% endblock stylesheets %}
     {% block javascripts %}
-        <script src="/js/jquery-1.7.2.min.js"></script>
-        <script src="/js/bootstrap.min.js"></script>
+        {% javascripts output='js/libraries.js'
+            'vendor/jquery/jquery/jquery-*.js'
+            'vendor/twbs/bootstrap/js/bootstrap-*.js'
+            'vendor/braincrafted/bootstrap-bundle/Bc/Bundle/BootstrapBundle/Resources/js/bc-bootstrap-collection.js'
+        %}
+            <script type="text/javascript" src="{{ app.request.basepath }}/{{ app.assetic_asset_path }}/{{ asset_url }}"></script>
+        {% endjavascripts %}
     {% endblock javascripts %}
 </head>
 <body>

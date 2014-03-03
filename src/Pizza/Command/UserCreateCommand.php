@@ -3,6 +3,8 @@
 namespace Pizza\Command;
 
 use Pizza\Entity\User;
+use Saxulum\Console\Command\AbstractCommand;
+use Saxulum\DoctrineOrmManagerRegistry\Doctrine\ManagerRegistry;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -16,7 +18,7 @@ class UserCreateCommand extends AbstractCommand
     protected function configure()
     {
         $this
-            ->setName('pizza:user:create')
+            ->setName('evepvp:user:create')
             ->setDescription('Create a user.')
             ->setDefinition(array(
                 new InputArgument('username', InputArgument::REQUIRED, 'The username'),
@@ -25,19 +27,19 @@ class UserCreateCommand extends AbstractCommand
                 new InputOption('admin', null, InputOption::VALUE_NONE, 'Set the user as admin'),
             ))
             ->setHelp(<<<EOT
-The <info>pizza:user:create</info> command creates a user:
+The <info>evepvp:user:create</info> command creates a user:
 
-  <info>php app/console pizza:user:create dominik</info>
+  <info>php app/console evepvp:user:create dominik</info>
 
 This interactive shell will ask you for an email and then a password.
 
 You can alternatively specify the email and password as the second and third arguments:
 
-  <info>php app/console pizza:user:create dominik dominik@example.com mypassword</info>
+  <info>php app/console evepvp:user:create dominik dominik@example.com mypassword</info>
 
 You can create a super admin via the admin flag:
 
-  <info>php app/console pizza:user:create admin --admin</info>
+  <info>php app/console evepvp:user:create admin --admin</info>
 
 EOT
             );
@@ -130,5 +132,13 @@ EOT
             );
             $input->setArgument('password', $password);
         }
+    }
+
+    /**
+     * @return ManagerRegistry
+     */
+    protected function getDoctrine()
+    {
+        return $this->container['doctrine'];
     }
 }

@@ -3,15 +3,20 @@
 namespace Pizza\Controller;
 
 use Silex\Application;
+use Saxulum\RouteController\Annotation\DI;
+use Saxulum\RouteController\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @DI(injectContainer=true)
+ */
 class LoginController extends AbstractController
 {
-    public static function addRoutes(Application $app, $serviceId)
-    {
-        $app->get('/login', $serviceId . ':loginAction')->bind('login');
-    }
-
+    /**
+     * @Route("/login", bind="login", method="GET")
+     * @param Request $request
+     * @return string
+     */
     public function loginAction(Request $request)
     {
         // return the rendered template

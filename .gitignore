@@ -2,5 +2,6 @@ app/cache
 app/config/parameters.yml
 app/log
 vendor
+web/assets
 
 .idea
